@@ -118,7 +118,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
           switch ($instr) {
 
           case 'labsolution_open' :   
-            if ($this_lab_no > $last_sol_lab) break;      
+            if ($this_lab_no > $last_sol_lab) {$renderer->_sol_doc = $renderer->doc; break; }
             $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
             break;
 
@@ -128,7 +128,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
             break;
 
           case 'labsolution_close' :
-            if ($this_lab_no > $last_sol_lab) break;      
+            if ($this_lab_no > $last_sol_lab) { $renderer->doc = $renderer->_sol_doc; break; }
             
             #$r = $_SERVER['REQUEST_URI'];
             #$p = explode("/",$r);
