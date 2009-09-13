@@ -1,0 +1,20 @@
+/* plugin:labscreen */
+
+div.screen {
+	margin: 0.5em;
+	-moz-border-radius-topright: 10px;
+	-webkit-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-radius-bottomleft: 10px;
+	padding: 0.5em 0.6em;
+	border: none;
+	background: #EEEEFF;
+	font-family: monospace;
+	font-size: 10pt;
+}
+
+/* end plugin:labscreen */
