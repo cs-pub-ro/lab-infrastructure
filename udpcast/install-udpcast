@@ -1,0 +1,73 @@
+#!/bin/bash
+# Last update: 2009-02-28
+# Mircea Bardac (cs@mircea.bardac.net)
+
+echo "WARNING: Besides UDPcast, install this scripts ALSO adds"
+echo "         an UDPcast menu entry to the GRUB menu."
+echo "WARNING: Not tested with GRUB 2 - menu entry might not work"
+
+if [ $# -ne 2 ]; then
+	echo "Usage: $0 <one-descriptive-word-for-the-udpcast-image> <iso-file>"
+	echo "   Example 1: $0 manual http://udpcast.linux.lu/20081213/udpcd.iso"
+	echo "   Example 2: $0 auto udpcast-custom.iso"
+	exit 1
+fi
+
+if [ $UID -ne 0 ]; then
+	echo "Error: must be executed as root."
+	exit 2
+fi
+
+udpcast_name=$1
+iso=$2
+
+echo $iso | grep '^http:' &> /dev/null
+if [ $? -eq 0 ]; then
+	echo '* Downloading image $1 ...'
+	wget $iso -O udpcast-temp.iso
+	iso="udpcast-temp.iso"
+fi
+
+if [ ! -f $iso ]; then
+	echo "Error: ISO file ($iso) not found."
+	exit 3
+fi
+
+UDPCAST_MOUNTPOINT=/tmp/udpcast-mountpoint
+UDPCAST_DIR=/boot/udpcast-$udpcast_name
+
+if [ -d $UDPCAST_DIR ]; then
+	echo "* Warning: overwriting old UDPcast install in $UDPCAST_DIR..."
+fi
+
+rm -rf $UDPCAST_DIR $UDPCAST_MOUNTPOINT
+mkdir $UDPCAST_MOUNTPOINT
+
+echo "* Mounting UDPcast image..."
+mount -o loop $iso $UDPCAST_MOUNTPOINT
+
+echo "* Copying UDPcast..."
+cp -r $UDPCAST_MOUNTPOINT $UDPCAST_DIR
+
+echo "* Unmounting UDPcast image..."
+umount $UDPCAST_MOUNTPOINT
+
+grep $UDPCAST_DIR/ /boot/grub/menu.lst &>/dev/null
+if [ $? -eq 1 ]; then
+	cat >> /boot/grub/menu.lst <<EOF
+
+# Added by install-udpcast script
+title		UDPcast ($udpcast_name)
+kernel		$UDPCAST_DIR/LINUX root=01:00
+initrd		$UDPCAST_DIR/INITRD
+
+EOF
+	echo "* Added Grub entry with name 'UDPcast ($udpcast_name)'"
+	echo "* Please change the title of the last Grub entry."
+else
+	echo "* Found existing UDPcast entry corresponding to $UDPCAST_DIR"
+	echo "  in the Grub menu. No changes were made."
+fi
+
+echo "* Done."
+
