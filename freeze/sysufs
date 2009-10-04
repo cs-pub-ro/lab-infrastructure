@@ -1,0 +1,187 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          sysufs
+# Required-Start:    $local_fs $syslog
+# Required-Stop:     $local_fs $syslog
+# Default-Start:     2
+# Default-Stop:      
+# Short-Description: Freezing script
+# Description:       Freezing script
+#                    
+### END INIT INFO
+# -*- coding: utf-8 -*-
+
+# Last update: 2009-10-04
+# Disclaimer: use it at your own risk
+
+# Support: USO/RL/SO/PSO team
+#  Mircea Bardac  (cs@mircea.bardac.net)
+#  George Milescu (george.milescu@gmail.com)
+
+# configuration variables
+
+# UNFROZEN_DISK is used as a storage disk for the data which
+# must not be available on next reboot
+# WARNING: this is being formatted if unaccessible
+# WARNING: make sure you change this variable when installing the script
+# You can also use UNFROZEN_DISK_MATCH to determine on the fly the partition
+# to be used for the unfrozen files. This can be useful in systems where,
+# depending on the kernel version, the partitions are named for example
+# hda6 or sda6
+UNFROZEN_DISK_MATCH=/dev/[sh]da3
+#UNFROZEN_DISK=/dev/sda6
+
+# Uncomment the line below to prevent the script from running.
+# Doing this will leave the system unfrozen.
+#exit 0
+
+
+# -----------------------------------------------------------------------
+# DO NOT modify below unless you know what you're doing
+
+EXEC_PATH=/etc/init.d/sysufs
+
+if test ! -z $UNFROZEN_DISK_MATCH; then
+	UNFROZEN_DISK=$(fdisk -l | grep ^/ | grep $UNFROZEN_DISK_MATCH | head -n 1 | cut -d" " -f 1)
+fi
+
+if test -z $UNFROZEN_DISK; then
+	logger -s -t "sysufs" "Failed freezing. No UNFROZEN_DISK specified."
+	exit 1
+fi
+
+logger -s -t "sysufs" "Using $UNFROZEN_DISK as unfrozen disk."
+
+# TODO(Mircea): this doesn't work as expected - just ignore
+# Iterate through all USB devices
+dev_dir=/sys/bus/usb/devices
+ls $dev_dir/ -1 | grep -v ":" | grep -v "usb" | while read d; do
+	# extract USB device serial number and product Id
+	key_serial=$(cat "$dev_dir/$d/serial" 2>/dev/null)
+	key_product=$(cat "$dev_dir/$d/idProduct" 2>/dev/null)
+	unique_id="$key_serial $key_product"
+	
+	# if the pair (serial number, product Id) matches a known combination
+	# exit the script; otherwise, continue running the freezing procedure
+	case "$unique_id" in
+		"180000000026EE 0151") exit 0; ;;
+		"A900000000025781 1000") exit 0; ;;
+		*) ;;
+	esac
+done
+
+if [ "-$1" == "-restart" ]; then
+	echo "Error: Restart is not supported."
+	exit 1
+fi
+
+logger -s -t "sysufs" "Sanitizing system..."
+
+# cleanup root traces from the unfrozen state
+rm -f /root/.bash_history
+rm -f /root/.ssh/known_hosts
+
+# cleanup student traces from the unfrozen state
+cd /home/student
+rm -f .bash_history                          # empty history
+rm -f .ssh/known_hosts                       # empty known_hosts (ssh)
+rm -rf .mozilla/firefox/*/history.dat    # remove Firefox history
+rm -rf .mozilla/firefox/*/Cache/         # remove Firefox cache
+rm -rf .mozilla/firefox/*/places.sqlite  # remove Firefox history
+rm -f .DCOPserver*    # cleanup for kdeinit
+
+# clean apt cache
+#rm -rf /var/cache/apt/archives/*.deb
+
+# clean network interface information
+rm -f /etc/udev/rules.d/70-persistent-net.rules
+
+# clean sudo commands traces
+rm -rf /var/log/auth.log*
+
+logger -s -t "sysufs" "Done sanitizing system."
+
+if [ "-$1" == "-stop" ]; then
+	logger -s -t "sysufs" "Cleaning up unfrozen disk..."
+	rm -rf /.systmp/*
+	logger -s -t "sysufs" "Done cleaning up unfrozen disk."
+	exit 0
+fi
+
+# mounting systmp
+rm -rf /.systmp
+mkdir /.systmp
+
+# $UNFROZEN_DISK is the partition where everything is mounted rw
+# comment the line below if you use .systmp on another partition
+
+/bin/mount -t ext3 $UNFROZEN_DISK /.systmp
+
+if [ $? -ne 0 ]; then
+	logger -s -t "sysufs" "* Formatting temporary space..."
+	/sbin/mkfs.ext3 -q $UNFROZEN_DISK
+	/bin/mount -t ext3 $UNFROZEN_DISK /.systmp
+fi
+
+logger -s -t "sysufs" "Starting freezing..."
+
+# cleanup data written since the previous freeze
+# "/.systmp/*" is used instead of "/.systmp" because it might be mounted
+# on a different partition
+rm -rf /.systmp/*
+
+# extra directories to be frozen
+# WARNING: by default, /var is not frozen
+
+# next variables are not used since we now freeze all /var/lib
+#VZ_DIRS="/var/lib/vz/private /var/lib/vz/template /var/lib/vz/dump"
+#APT_DIRS="/var/lig/dpkg /var/lib/apt /var/lib/aptitude"
+#MAIL_DIRS="/var/lib/mail /var/lib/postfix /var/lib/courier"
+
+dir_list="/var/www /var/spool/cron/crontabs /var/lib /var/spool /var/cache/bind"
+
+# old version; kept out of nostalgy
+#for i in $(ls -al / | grep ^d | tr -s ' ' | cut -d ' ' -f 9 | grep -v ^\\.); do
+
+for i in $(find / -maxdepth 1 -type d | tail -n +2 | cut -c 2- | grep -v '^\.'); do
+	mkdir -p /.systmp/$i
+done
+
+for i in $dir_list; do
+	mkdir -p /.systmp$i
+	[ ! -d $i ] && mkdir -p $i
+done
+
+# freezing
+/bin/mount -t aufs -o dirs=/.systmp/bin=rw:/bin=ro aufs /bin
+/bin/mount -t aufs -o dirs=/.systmp/boot=rw:/boot=ro aufs /boot
+/bin/mount -t aufs -o dirs=/.systmp/etc=rw:/etc=ro aufs /etc
+/bin/mount -t aufs -o dirs=/.systmp/home=rw:/home=ro aufs /home
+/bin/mount -t aufs -o dirs=/.systmp/lib=rw:/lib=ro aufs /lib
+/bin/mount -t aufs -o dirs=/.systmp/lost+found=rw:/lost+found=ro aufs /lost+found
+/bin/mount -t aufs -o dirs=/.systmp/mnt=rw:/mnt=ro aufs /mnt
+/bin/mount -t aufs -o dirs=/.systmp/opt=rw:/opt=ro aufs /opt
+/bin/mount -t aufs -o dirs=/.systmp/root=rw:/root=ro aufs /root
+/bin/mount -t aufs -o dirs=/.systmp/sbin=rw:/sbin=ro aufs /sbin
+#/bin/mount -t aufs -o dirs=/.systmp/selinux=rw:/selinux=ro aufs /selinux
+/bin/mount -t aufs -o dirs=/.systmp/srv=rw:/srv=ro aufs /srv
+#/bin/mount -t aufs -o dirs=/.systmp/initrd=rw:/initrd=ro aufs /initrd
+/bin/mount -t aufs -o dirs=/.systmp/usr=rw:/usr=ro aufs /usr
+#/bin/mount -t aufs -o dirs=/.systmp/var=rw:/var=ro aufs /var
+
+# freeze extra directories
+for i in $dir_list; do
+	/bin/mount -t aufs -o dirs=/.systmp$i=rw:$i=ro aufs $i
+done
+
+# script protection by default (probably useless if they have root access)
+chmod 111 ${EXEC_PATH}
+
+# firewall setup
+iptables -A OUTPUT -p tcp --dport 5050 -j REJECT      # Yahoo Messenger
+iptables -A OUTPUT -p tcp -d 69.36.250.253 -j REJECT  # meebo.com
+iptables -A OUTPUT -p tcp -d 85.9.22.254 -j REJECT    # gsp.ro
+iptables -A OUTPUT -p tcp -d 85.9.7.33 -j REJECT      # prosport.ro
+
+logger -s -t "sysufs"  "Freezing complete. Enjoy."
+

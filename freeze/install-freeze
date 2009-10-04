@@ -1,0 +1,45 @@
+#!/bin/bash
+# Mircea Bardac (cs@mircea.bardac.net)
+# Last update: 2009-02-28
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 <freezing-script>"
+	echo "   Example: $0 ./sysufs"
+	exit 1
+fi
+
+if [ $UID -ne 0 ]; then
+	echo "Error: must be executed as root."
+	exit 2
+fi
+
+echo "* Checking if the system allows freezing..."
+modprobe aufs &>/dev/null
+if [ $? -ne 0 ]; then
+	echo "Error: the system does not support the 'aufs' kernel module"
+	echo "Please install the kernel module as a package or recompile the kernel"
+	exit 3
+fi
+rmmod aufs
+
+FREEZING_SCRIPT=$1
+
+echo "* Installing freezing script..."
+cp $FREEZING_SCRIPT /etc/init.d/sysufs
+
+echo "* Configuring system for freezing on startup..."
+#update-rc.d sysufs defaults
+cd /etc/rc2.d
+ln -s ../init.d/sysufs S99sysufs
+
+echo "URGENT!"
+echo "!!! Change the UNFROZEN_DISK variable in /etc/init.d/sysufs BEFORE rebooting the system."
+echo "!!! Make sure your system uses 'student' as main user"
+
+echo
+echo "(for Gnome, as each user)
+echo "Execute: gconftool-2 --type bool --set /apps/nautilus/desktop/volumes_visible 'false'"
+echo "as the users which are going to use the system (this will hide the unfrozen partition)."
+echo
+echo "* Done."
+
