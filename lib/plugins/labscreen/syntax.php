@@ -37,7 +37,7 @@ class syntax_plugin_labscreen extends DokuWiki_Syntax_Plugin {
 
     function getType(){ return 'protected';}
     function getAllowedTypes() {
-            return array('container','substition','protected','disabled','formatting','paragraphs');
+            return array();
     }
     function getPType(){ return 'block';}
 
@@ -97,16 +97,22 @@ class syntax_plugin_labscreen extends DokuWiki_Syntax_Plugin {
       if($mode == 'xhtml'){
           switch ($instr) {
 
-          case 'labscreen_open' :   
+          case 'labscreen_open' :
             $renderer->doc .= '<div class="screen">';
             break;
 
-          case 'labscreen_data' :      
-            $renderer->doc .= $renderer->_xmlEntities($data); 
+          case 'labscreen_data' :
+	    $order   = array("\r\n", "\n", "\r");
+	    $replace = '<br />';
+	    // Processes \r\n's first so they aren't converted twice.
+	    $new_data = str_replace($order, $replace, $data);
+	    $renderer->doc .= $new_data;
+	    // $renderer->doc .= $renderer->_xmlEntities($data); // needed when allowing other syntax types
             break;
 
           case 'labscreen_close' :
-            $renderer->doc .= "</div>\n";
+            $new_doc = str_replace('<div class="screen"><br />', '<div class="screen">', $renderer->doc);
+            $renderer->doc = $new_doc."</div>\n";
             break;
         }
 
