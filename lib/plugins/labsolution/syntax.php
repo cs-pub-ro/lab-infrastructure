@@ -153,7 +153,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
 		  break;
 
           case 'labsolution_data' :      
-            if ($hidden) break;
+            if ($hidden == self::SOLUTION_HIDDEN) break;
             $renderer->doc .= $renderer->_xmlEntities($data); 
             break;
 
