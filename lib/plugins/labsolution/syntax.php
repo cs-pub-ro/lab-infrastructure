@@ -24,6 +24,9 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
+	const SOLUTION_HIDDEN = 1;
+	const SOLUTION_SHOW_EDITOR = 2;
+
     function getInfo(){
       return array(
         'author' => 'Mircea Bardac',
@@ -44,7 +47,10 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
           $this_lab_no=(int)$p[count($p)-2];
       }
       global $INFO;
-      return ($this_lab_no > $last_sol_lab) && ($INFO['perm'] < AUTH_EDIT );
+      $r = 0;
+      if ($this_lab_no > $last_sol_lab) { $r == self::SOLUTION_HIDDEN; }
+      if (($this_lab_no > $last_sol_lab) && ($INFO['perm'] >= AUTH_EDIT )) { $r = self::SOLUTION_SHOW_EDITOR; }
+      return $r;
    }
 
     function getType(){ return 'container'; }
@@ -135,10 +141,16 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
 	  switch ($instr) {
 
           case 'labsolution_open' :
-            #if ($hidden) {$renderer->_sol_doc = $renderer->doc; break; }
-            if ($hidden) { $renderer->doc .= '%%%2121!!!+++CUTHERE+++!!!2121%%%'; break; }
-            $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
-            break;
+		  if ($hidden == self::SOLUTION_HIDDEN) {
+			  $renderer->doc .= '%%%2121!!!+++CUTHERE+++!!!2121%%%';
+			  break;
+		  }
+		  if ($hidden == self::SOLUTION_SHOW_EDITOR) {
+			  $renderer->doc .= '<div class="solution solution_hidden"><div class="solution_title solution_title_hidden">Rezolvare ascunsă</div><div class="solution_contents">';
+			  break;
+		  }
+		  $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
+		  break;
 
           case 'labsolution_data' :      
             if ($hidden) break;
@@ -146,19 +158,11 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
             break;
 
           case 'labsolution_close' :
-            #if ($hidden) {$renderer->_sol_doc = $renderer->doc; break; }
-	    if ($hidden) {
+	    if ($hidden == self::SOLUTION_HIDDEN) {
 	      $parts = preg_split("/%%%2121!!!\+\+\+CUTHERE\+\+\+!!!2121%%%/", $renderer->doc);
-	      $renderer->doc = $parts[0]; break;
+	      $renderer->doc = $parts[0];
+	      break;
 	    }
-            #if ($this_lab_no > $last_sol_lab) { $renderer->doc = $renderer->_sol_doc; break; }
-            
-            #$r = $_SERVER['REQUEST_URI'];
-            #$p = explode("/",$r);
-            #$q = "not ok";
-            #if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) $q=(int)$p[count($p)-2];
-            #$renderer->doc .= $q."<br/>".$r."<br/>".date(DATE_RFC822);
-            
             $renderer->doc .= "</div></div>\n";
             break;
         }
