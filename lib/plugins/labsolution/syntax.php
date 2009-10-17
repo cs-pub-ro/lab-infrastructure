@@ -24,6 +24,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
+	const SOLUTION_VISIBLE = 0;
 	const SOLUTION_HIDDEN = 1;
 	const SOLUTION_SHOW_EDITOR = 2;
 
@@ -47,9 +48,11 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
           $this_lab_no=(int)$p[count($p)-2];
       }
       global $INFO;
-      $r = 0;
-      if ($this_lab_no > $last_sol_lab) { $r == self::SOLUTION_HIDDEN; }
-      if (($this_lab_no > $last_sol_lab) && ($INFO['perm'] >= AUTH_EDIT )) { $r = self::SOLUTION_SHOW_EDITOR; }
+      $r = self::SOLUTION_VISIBLE;
+      if ($this_lab_no > $last_sol_lab) {
+	$r = self::SOLUTION_HIDDEN;
+	if ($INFO['perm'] >= AUTH_EDIT ) { $r = self::SOLUTION_SHOW_EDITOR; }
+      }
       return $r;
    }
 
