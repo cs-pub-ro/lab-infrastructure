@@ -35,9 +35,22 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       );
     }
 
-    function getType(){ return 'protected';}
+    function is_solution_hidden(){
+      $last_sol_lab = $this->getConf('last_sol_lab');
+      $this_lab_no = 100;
+      $r = $_SERVER['REQUEST_URI'];
+      if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {
+          $p = explode("/",$r);
+          $this_lab_no=(int)$p[count($p)-2];
+      }
+      global $INFO;
+      return ($this_lab_no > $last_sol_lab) && ($INFO['perm'] < AUTH_EDIT );
+   }
+
+    function getType(){ return 'container'; }
+
     function getAllowedTypes() {
-            return array('container','substition','protected','disabled','formatting','paragraphs');
+	    return array('container','substition','protected','disabled','formatting','paragraphs');
     }
     function getPType(){ return 'block';}
 
@@ -114,21 +127,31 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
           $this_lab_no=(int)$p[count($p)-2];
       }
 
-      if($mode == 'xhtml'){
-          switch ($instr) {
+      $hidden = $this->is_solution_hidden();
 
-          case 'labsolution_open' :   
-            if ($this_lab_no > $last_sol_lab) {$renderer->_sol_doc = $renderer->doc; break; }
+      if($mode == 'xhtml'){
+	  $renderer->info['cache'] = false;
+
+	  switch ($instr) {
+
+          case 'labsolution_open' :
+            #if ($hidden) {$renderer->_sol_doc = $renderer->doc; break; }
+            if ($hidden) { $renderer->doc .= '%%%2121!!!+++CUTHERE+++!!!2121%%%'; break; }
             $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
             break;
 
           case 'labsolution_data' :      
-            if ($this_lab_no > $last_sol_lab) break;
+            if ($hidden) break;
             $renderer->doc .= $renderer->_xmlEntities($data); 
             break;
 
           case 'labsolution_close' :
-            if ($this_lab_no > $last_sol_lab) { $renderer->doc = $renderer->_sol_doc; break; }
+            #if ($hidden) {$renderer->_sol_doc = $renderer->doc; break; }
+	    if ($hidden) {
+	      $parts = preg_split("/%%%2121!!!\+\+\+CUTHERE\+\+\+!!!2121%%%/", $renderer->doc);
+	      $renderer->doc = $parts[0]; break;
+	    }
+            #if ($this_lab_no > $last_sol_lab) { $renderer->doc = $renderer->_sol_doc; break; }
             
             #$r = $_SERVER['REQUEST_URI'];
             #$p = explode("/",$r);
