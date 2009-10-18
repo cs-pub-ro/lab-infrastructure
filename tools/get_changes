@@ -6,6 +6,7 @@ if test $# -eq 0; then
 	cat <<END
 Usage:
 	$0 <path_of_dokuwiki_install_on_elf>
+	Copies changes from the remote path on elf.cs.pub.ro to the local repository
 	* must be executed in the root dir of the repository
 Example:
 	$0 /home/rl/www

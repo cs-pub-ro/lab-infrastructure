@@ -1,0 +1,49 @@
+#!/bin/bash
+# Mircea Bardac
+# cs@mircea.bardac.net
+#
+# WARNING:
+# This script might be destructive if called with wrong parameters.
+# Use with caution.
+
+if test $# -ne 2; then
+	cat <<END
+Usage:
+	$0 <path_of_dokuwiki_install_on_elf> <user>
+	Copies changes from local repository to the remote path on elf.cs.pub.ro
+	WARNING: This script might be destructive if called with wrong parameters.
+	         Use with caution!
+	* must be executed in the root dir of the repository
+Example:
+	$0 /home/uso/www uso
+END
+	exit 1
+else
+	PUBLIC_DIR=$1
+	U=$2
+fi
+
+stat .git 2>/dev/null 1>/dev/null
+if test $? -ne 0; then
+	echo "Error: must be executed in root dir of the repository"
+	exit 1
+fi
+
+for i in labsolution labscreen; do
+	rsync -arvz \
+		--del \
+		--delete-excluded \
+		--exclude='*~' \
+		lib/plugins/$i/ root@elf.cs.pub.ro:$PUBLIC_DIR/lib/plugins/$i/
+	ssh root@elf.cs.pub.ro "chown -R $U:www-data $PUBLIC_DIR/lib/plugins/$i/"
+done
+
+for i in cslab; do
+	rsync -arvz \
+		--del \
+		--delete-excluded \
+		--exclude='*~' \
+		lib/tpl/$i/ root@elf.cs.pub.ro:$PUBLIC_DIR/lib/tpl/$i/
+	ssh root@elf.cs.pub.ro "chown -R $U:www-data $PUBLIC_DIR/lib/tpl/$i/"
+done
+
