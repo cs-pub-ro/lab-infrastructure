@@ -10,7 +10,7 @@
 * { padding: 0; margin: 0; }
 
 body {
-  font: 80% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+  font: 11pt "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
   background-color: __background__;
   color: __text__;
 }
@@ -340,7 +340,7 @@ div.dokuwiki div.preview {
 div.dokuwiki div.breadcrumbs {
   background-color: __background_neu__;
   color: __text_neu__;
-  font-size: 80%;
+  /*font-size: 80%;*/
   padding: 0 0 0 4px;
 }
 
@@ -404,10 +404,10 @@ div.dokuwiki h5 {
 }
 
 /* special headlines */
-div.dokuwiki h1 {font-size: 160%; margin-left: 0px; font-weight: bold;}
-div.dokuwiki h2 {font-size: 150%; margin-left: 20px;}
-div.dokuwiki h3 {font-size: 140%; margin-left: 40px; border-bottom: none; font-weight: bold;}
-div.dokuwiki h4 {font-size: 120%; margin-left: 60px; border-bottom: none; font-weight: bold;}
+div.dokuwiki h1 {font-size: 140%; margin-left: 0px; font-weight: bold;}
+div.dokuwiki h2 {font-size: 125%; margin-left: 20px;}
+div.dokuwiki h3 {font-size: 120%; margin-left: 40px; border-bottom: none; font-weight: bold;}
+div.dokuwiki h4 {font-size: 110%; margin-left: 60px; border-bottom: none; font-weight: bold;}
 div.dokuwiki h5 {font-size: 100%; margin-left: 80px; border-bottom: none; font-weight: bold;}
 
 /* indent different sections */
