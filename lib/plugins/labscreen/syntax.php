@@ -102,10 +102,13 @@ class syntax_plugin_labscreen extends DokuWiki_Syntax_Plugin {
             break;
 
           case 'labscreen_data' :
-	    $order   = array("\r\n", "\n", "\r");
+	    // convert HTML entities
+	    $data = htmlspecialchars($data, ENT_QUOTES);
+	    // replace new lines with <br />
+	    $order   = array("\r\n", "\n", "\r"); // Processes \r\n's first so they aren't converted twice.
 	    $replace = '<br />';
-	    // Processes \r\n's first so they aren't converted twice.
 	    $new_data = str_replace($order, $replace, $data);
+
 	    $renderer->doc .= $new_data;
 	    // $renderer->doc .= $renderer->_xmlEntities($data); // needed when allowing other syntax types
             break;
