@@ -841,3 +841,9 @@ div.dokuwiki div.imagemeta img.thumb {
   float:left;
   margin-right: 0.1em;
 }
+
+/* --- note details */
+
+.noteclassic li, .noteimportant li, .notewarning li, .notetip li {
+  margin-left: -2em;
+}
