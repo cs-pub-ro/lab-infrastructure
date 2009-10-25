@@ -86,6 +86,38 @@ class syntax_plugin_labscreen extends DokuWiki_Syntax_Plugin {
         return false;
     }
 
+   // taken from http://php.net/manual/en/function.wordwrap.php
+   function utf8_wordwrap($str, $width = 80, $break = "\n") // wordwrap() with utf-8 support
+    {
+        $str = preg_split('#[\s\n\r]+#', $str);
+        $len = 0;
+        foreach ($str as $val)
+        {
+            $val .= ' ';
+            $tmp = mb_strlen($val, 'utf-8');
+            $len += $tmp;
+            if ($len >= $width)
+            {
+                $return .= $break . $val;
+                $len = $tmp;
+            }
+            else
+                $return .= $val;
+        }
+        return $return;
+    }
+
+   function utf8_linewrap($str)
+    {
+        $str = preg_split('#\n#', $str);
+        $r = '';
+        foreach ($str as $val)
+        {
+            $r .= $this->utf8_wordwrap($val)."\n";
+        }
+        return $r;
+    }
+
     /**
      * Create output
      */
@@ -102,14 +134,18 @@ class syntax_plugin_labscreen extends DokuWiki_Syntax_Plugin {
             break;
 
           case 'labscreen_data' :
+	    // convert tabs to spaces
+	    $data = str_replace("\t", '    ', $data);
+	    // line wrapping at 80 characters
+	    //$data = $this->utf8_linewrap($data);
 	    // convert HTML entities
 	    $data = htmlspecialchars($data, ENT_QUOTES);
+	    // convert spaces to non-breakable spaces
+	    $data = str_replace(" ", '&nbsp;', $data);
 	    // replace new lines with <br />
-	    $order   = array("\r\n", "\n", "\r"); // Processes \r\n's first so they aren't converted twice.
-	    $replace = '<br />';
-	    $new_data = str_replace($order, $replace, $data);
+	    $data = nl2br($data);
 
-	    $renderer->doc .= $new_data;
+	    $renderer->doc .= $data;
 	    // $renderer->doc .= $renderer->_xmlEntities($data); // needed when allowing other syntax types
             break;
 
