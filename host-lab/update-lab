@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# script for updating the offline version of the lab
+# from a SVN repository
+# (used in 2008-2009)
+
+LABDIR=/var/offline/uso-lab
+
+clean_install() {
+	echo "* Local lab copy is compromised. Getting new copy..."
+	LABTEMP=$LABDIR-temp
+	rm -rf $LABTEMP
+	svn co svn://anaconda.cs.pub.ro/uso-lab $LABTEMP
+	if [ $? -eq 0 ]; then
+		echo "* Replacing old lab copy..."
+		rm -rf $LABDIR
+		mv $LABTEMP $LABDIR
+		echo "* Done."
+	else
+		echo "* Error getting new copy. No change was done locally."
+	fi
+	exit 0
+}
+
+[ ! -e $LABDIR ] && clean_install
+
+status=$(cd $LABDIR; svn status --no-ignore 2>&1 | wc -l)
+[ $status -ne 0 ] && clean_install
+
+
+cd $LABDIR; svn up
+
