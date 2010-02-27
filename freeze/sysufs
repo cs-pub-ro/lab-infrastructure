@@ -55,20 +55,20 @@ logger -s -t "sysufs" "Using $UNFROZEN_DISK as unfrozen disk."
 # TODO(Mircea): this doesn't work as expected - just ignore
 # Iterate through all USB devices
 dev_dir=/sys/bus/usb/devices
-ls $dev_dir/ -1 | grep -v ":" | grep -v "usb" | while read d; do
-	# extract USB device serial number and product Id
-	key_serial=$(cat "$dev_dir/$d/serial" 2>/dev/null)
-	key_product=$(cat "$dev_dir/$d/idProduct" 2>/dev/null)
-	unique_id="$key_serial $key_product"
-	
-	# if the pair (serial number, product Id) matches a known combination
-	# exit the script; otherwise, continue running the freezing procedure
-	case "$unique_id" in
-		"180000000026EE 0151") exit 0; ;;
-		"A900000000025781 1000") exit 0; ;;
-		*) ;;
-	esac
-done
+while read d; do
+    # extract USB device serial number and product Id
+    key_serial=$(cat "$dev_dir/$d/serial" 2>/dev/null)
+    key_product=$(cat "$dev_dir/$d/idProduct" 2>/dev/null)
+    unique_id="$key_serial $key_product"
+    
+    # if the pair (serial number, product Id) matches a known combination
+    # exit the script; otherwise, continue running the freezing procedure
+    case "$unique_id" in
+	    "180000000026EE 0151") exit 0; ;;
+	    "A900000000025781 1000") exit 0; ;;
+	    *) ;;
+    esac
+done < <(ls $dev_dir/ -1 | grep -v ":" | grep -v "usb")
 
 if [ "-$1" == "-restart" ]; then
 	echo "Error: Restart is not supported."
