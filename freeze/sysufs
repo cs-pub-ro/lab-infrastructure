@@ -52,6 +52,17 @@ fi
 
 logger -s -t "sysufs" "Using $UNFROZEN_DISK as unfrozen disk."
 
+# Don't freeze if nofreeze is given on kernel cmd line.
+# To use this effectively, add a line like the following to /boot/grub/menu.lst:
+# `# altoptions=(no freeze) nofreeze'
+# This will add a boot option that will boot unfreezed (by passing the nofreeze option).
+# Make sure the line is commented; also keep the original `altoptions=(...) single' line.
+# -octav
+if [[ "`cat /proc/cmdline`" =~ "nofreeze" ]]; then
+        logger -s -t "sysufs" "Starting unfrozen due to nofreeze parameter in kernel command line."
+        exit 0
+fi
+
 # TODO(Mircea): this doesn't work as expected - just ignore
 # Iterate through all USB devices
 dev_dir=/sys/bus/usb/devices
