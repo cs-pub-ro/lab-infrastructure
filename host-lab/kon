@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+# Mircea Bardac (cs@mircea.bardac.net)
+# Warning: very old code
+# this looks like a stub application for launching a multi-tab window
+# with a HTML view and a terminal (konsole) in each tab
+# not tested, just commited as is in the repo
+
+from kdecore import KCmdLineArgs, KApplication, KAboutData, KURL
+from kdeui import KStdAction
+from kparts import KParts, createReadOnlyPart
+
+import khtml
+
+
+import sys
+
+FALSE = 0
+TRUE  = not FALSE
+
+width = 800
+
+class LabMainWindow (KParts.MainWindow):
+	def __init__ (self, *args):
+		apply (KParts.MainWindow.__init__, (self,) + args)
+		quitAction = KStdAction.quit (self.close, self.actionCollection ())
+		self.setGeometry (0, 0, width, 500)
+		
+		# Konsole View
+		self.part = createReadOnlyPart("libkonsolepart", self)
+		self.w = self.part.widget()
+		self.w.setGeometry(0, 300, width, 200);
+		self.w.show();
+		
+		# HTML View
+		self.part = khtml.KHTMLPart(self)
+		self.part.openURL(KURL("http://www.kde.org"))
+		self.w = self.part.widget()
+		self.w.setGeometry(0, 0, width, 300)
+		self.w.show()
+
+	def queryExit(self):
+		#// this slot is invoked in addition when the *last* window is going
+		#// to be closed. We could do some final cleanup here.
+		return TRUE #// accept
+
+aboutData = KAboutData("LABAPP", "Laborator USO", "0.1", "-", KAboutData.License_GPL, "")
+
+KCmdLineArgs.init(sys.argv, aboutData)
+app = KApplication()
+
+if (app.isRestored()):
+	RESTORE(KLess)
+else:
+	mw = LabMainWindow(None, "pyParts")
+	if len(sys.argv) > 1:
+		 args = KCmdLineArgs.parsedArgs()
+
+mw.show()
+app.exec_loop()
+
