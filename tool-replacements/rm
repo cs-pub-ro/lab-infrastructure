@@ -1,0 +1,33 @@
+#!/bin/bash
+# MBGM, nov. 2007
+
+rm_trap() {
+	echo "Trying to escape, huh? Resistance is futile."
+	echo "You better enter your name and say you are sorry. Thank you."
+	echo -n "To send your applologies, please enter your full name: "
+}
+
+trap rm_trap SIGINT SIGSTOP SIGTERM
+
+match=0
+cmd=$1
+
+if [[ ${cmd:0:2} == "-r" && $2 == "/" ]]; then match=1; fi
+if [[ ${cmd:0:2} == "-r" && $2 == "/home" ]]; then match=1; fi
+
+
+if [ $match -eq 1 ]; then
+	echo "Your attempt has been logged and USO administrator has been contacted."
+	nume=""
+	echo "$(date +%F-%H-%M-%S) (user: $USER) (pwd: $PWD) - attempt to delete dir: $2 (see below)" >> /var/log/sysupdate.log
+	while [ ${#nume} -lt 5 ]; do
+		echo -n "To send your applologies, please enter your full name: "
+		read nume
+	done
+	echo "Thank you, $nume."
+	echo "$(date +%F-%H-%M-%S) (user: $USER) (pwd: $PWD) - $nume tried to delete dir: $2 (identified previous attempt)" >> /var/log/sysupdate.log
+	exit 1
+fi
+
+/bin/rm $@
+
