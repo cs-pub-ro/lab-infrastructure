@@ -1,0 +1,57 @@
+#!/bin/sh
+#
+# GUI for mount-share script.
+# Only works with gnome/zenity for now.
+#
+# Should be installed in /usr/local/bin, along with mount-share.
+#
+# -Octavian Voicu <octavian.voicu@gmail.com>
+#
+
+BACKEND="/usr/local/bin/mount-share"
+MOUNTPATH="/home/student/spook-share"
+SHAREPATH="//spook.local/root"
+TITLE="spook-share mount script"
+VMNAME="so-vm-linux-ubuntu"
+
+#
+# GUI specific part
+#
+
+ZENITY="/usr/bin/zenity"
+
+function error()
+{
+	$ZENITY --error --title="$TITLE" --text="$@"
+}
+
+function info()
+{
+	$ZENITY --info --title="$TITLE" --text="$@"
+}
+
+function confirm()
+{
+	$ZENITY --question --title="$TITLE" --text="$@" || exit 1
+}
+
+#
+# End of GUI specific part
+#
+
+if ! [ -x "$BACKEND" ]
+then
+	error "ERROR: can't execute $BACKEND"
+	exit 1
+fi
+
+confirm "This will mount share $SHAREPATH to local directory $MOUNTPATH.\n\nTips:\n- Make sure VM finished booting before continuing.\n- Wait until the confirmation/failure message before running script again.\n\nProceed with mount?"
+
+output=$($BACKEND 2>&1)
+if [ $? -ne 0 ]
+then
+	error "$output"
+	exit 1
+fi
+
+info "$output"

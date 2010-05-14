@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Default path to mount; must be in /etc/fstab
+DEFAULT_PATH="/home/student/spook-share"
+
+# If no path in command line, use default
+if [ -n "$1" ]
+then
+	PATH="$1"
+else
+	PATH="$DEFAULT_PATH"
+fi
+
+(/bin/mount | /bin/grep "$PATH") &> /dev/null
+if [ $? -eq 0 ]
+then
+	echo "ERROR: $PATH is already mounted"
+	exit 1
+fi
+
+output=$(/bin/mount "$PATH")
+if [ $? -ne 0 ]
+then
+	echo "ERROR: $PATH cannot be mounted"
+	echo
+	echo "$output"
+	exit 1
+fi
+
+echo "SUCCESS: $PATH is now mounted"
+echo
+echo "$ ls -l $PATH | head"
+/bin/ls -l "$PATH" | /usr/bin/head
