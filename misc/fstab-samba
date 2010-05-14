@@ -1,0 +1,18 @@
+#
+# This is what to put in /etc/fstab to properly mount Linux/Windows samba shares.
+#
+# For Linux it's crucial to specify the noperm mount option;
+# if you don't, things will work very badly (you'll get permission errors,
+# timestamps won't be updated, etc).
+#
+# Would be nice if a crashed Samba server would to lead to an unresponsive
+# desktop, but this is what happens (start VM, mount share, kill VM -- you
+# won't be able to umount it). timeo,retry_count don't seem to help much.
+# -octav
+#
+# spook.local is on the Linux VM
+# chooch.local is on the Windows VM
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+//spook.local/root /home/student/spook-share cifs	user,noauto,username=root,password=student,noperm,retry_count=1,timeo=1	0	0
+//chooch.local/share /home/student/chooch-share cifs	user,noauto,username=student,password=student,retry_count=1,timeo=1	0	0
