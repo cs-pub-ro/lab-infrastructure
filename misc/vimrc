@@ -1,0 +1,15 @@
+"
+" Useful config stuff to put in ~/.vimrc
+" -octav
+"
+
+" RD's idea: don't clobber the filesystem with backup files;
+" store them in a separate directory instead
+" (don't forget to mkdir -p)
+set backupdir=~/.vim/bkup/
+
+" Preload a tags file for use with vim.
+" For easy kernel reference, build the tags file:
+" $ cd /usr/src/linux-source-... ; make tags
+" Then load the generated tags file in vimrc.
+set tags=/usr/src/linux-source-.../tags
