@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Run a command on a series of hosts, given by their MAC address.
+# Uses arping to get their IP addresses.
+#
+# Command is executed using ssh. For best results, use host key
+# authentication and either have the keys in ~/.ssh/known_hosts
+# or set StrictHostKeyChecking to no in ssh config.
+#
+# Command is given on the command line.
+# If no command is given, it will just show which hosts are up.
+#
+# Make sure you change the path to the MAC list file.
+# The format of each line in this file is: name_macaddress
+# (ie. name and mac address, separated by an underscore)
+#
+# -Octavian Voicu <octavian.voicu@gmail.com>
+#
+
+# File with the list of MACs
+MACLIST="/root/.mac-list-eg207"
+
+# TODO: arping all the hosts at the same time to speed things up
+
+for entry in $(cat "$MACLIST")
+do
+	id=$(echo $entry | cut -d _ -f 1)
+	mac=$(echo $entry | cut -d _ -f 2)
+	ip=$(arping -r -c 1 $mac)
+	if [ -z "$ip" ]
+	then
+		echo "$id: $mac: DOWN"
+	else
+		own=$(/sbin/ifconfig | grep 'inet addr' | grep $ip)
+		if [ -n "$own" ]
+		then
+			# Don't run any commands on our IP!
+			echo "$id: $mac: $ip [skipping]"
+		else
+			echo "$id: $mac: $ip"
+			if [ -n "$*" ]
+			then
+				echo "# ssh root@$ip \"$*\""
+				ssh root@$ip "$*"
+			fi
+		fi
+	fi
+done
