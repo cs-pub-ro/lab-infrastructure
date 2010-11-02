@@ -43,9 +43,20 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       $last_sol_lab = $this->getConf('last_sol_lab');
       $this_lab_no = 100;
       $r = $_SERVER['REQUEST_URI'];
+
+      # TODO: make this pretty - have it as an option
+      # URL format: http://something/path1/path2/.../laborator-XX
+      #if (preg_match("/\/laborator\-\d\d$/",$r)) {
+      #    $p = explode("/",$r);
+      #    $p = $p[count($p)-1]; # we are only interested in the last element of the path
+      #    $p = substr($p, -2); # take the last 2 characters of the last element
+      #    $this_lab_no=(int)$p; # convert to int·
+      #}
+
+      # URL format: http://something/path1/path2/.../lab/XX/any_page
       if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {
           $p = explode("/",$r);
-          $this_lab_no=(int)$p[count($p)-2];
+          $this_lab_no=(int)$p[count($p)-2]; # take the contents of the element before the last slash
       }
       global $INFO;
       $r = self::SOLUTION_VISIBLE;
