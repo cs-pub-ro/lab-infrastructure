@@ -37,7 +37,7 @@ echo "!!! Change the UNFROZEN_DISK variable in /etc/init.d/sysufs BEFORE rebooti
 echo "!!! Make sure your system uses 'student' as main user"
 
 echo
-echo "(for Gnome, as each user)
+echo "(for Gnome, as each user)"
 echo "Execute: gconftool-2 --type bool --set /apps/nautilus/desktop/volumes_visible 'false'"
 echo "as the users which are going to use the system (this will hide the unfrozen partition)."
 echo
