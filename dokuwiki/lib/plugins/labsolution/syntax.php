@@ -67,10 +67,10 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       return $r;
    }
 
-    function getType(){ return 'container'; }
+    function getType(){ return 'protected'; }
 
     function getAllowedTypes() {
-	    return array('container','substition','protected','disabled','formatting','paragraphs');
+	    return array('protected','formatting');
     }
     function getPType(){ return 'block';}
 
