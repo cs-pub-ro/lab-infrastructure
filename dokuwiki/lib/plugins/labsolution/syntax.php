@@ -6,9 +6,9 @@
  *
  * Acknowledgements:
  *  Derived from Box plugin (http://www.dokuwiki.org/plugin:box)
- * 
+ *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Mircea Bardac <mircea@bardac.net>  
+ * @author     Mircea Bardac <mircea@bardac.net>
  */
 
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
@@ -24,9 +24,9 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
     /**
      * return some info
      */
-	const SOLUTION_VISIBLE = 0;
-	const SOLUTION_HIDDEN = 1;
-	const SOLUTION_SHOW_EDITOR = 2;
+    const SOLUTION_VISIBLE = 0;
+    const SOLUTION_HIDDEN = 1;
+    const SOLUTION_SHOW_EDITOR = 2;
 
     function getInfo(){
       return array(
@@ -61,23 +61,26 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       global $INFO;
       $r = self::SOLUTION_VISIBLE;
       if ($this_lab_no > $last_sol_lab) {
-	$r = self::SOLUTION_HIDDEN;
-	if ($INFO['perm'] >= AUTH_EDIT ) { $r = self::SOLUTION_SHOW_EDITOR; }
+    $r = self::SOLUTION_HIDDEN;
+    if ($INFO['perm'] >= AUTH_EDIT ) { $r = self::SOLUTION_SHOW_EDITOR; }
       }
       return $r;
    }
 
+    # http://www.dokuwiki.org/devel:syntax_plugins#syntax_types
     function getType(){ return 'protected'; }
 
+    # http://www.dokuwiki.org/devel:syntax_plugins#syntax_types
     function getAllowedTypes() {
-	    return array('protected','formatting');
+        # allow all types of syntax inside
+        return array('container', 'baseonly', 'formatting', 'substition', 'protected', 'disabled', 'paragraphs');
     }
     function getPType(){ return 'block';}
 
     // must return a number lower than returned by native 'code' mode (200)
     function getSort(){ return 195; }
 
-    // override default accepts() method to allow nesting 
+    // override default accepts() method to allow nesting
     // - ie, to get the plugin accepts its own entry syntax
     //function accepts($mode) {
     //    if ($mode == substr(get_class($this), 7)) return true;
@@ -87,7 +90,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
     /**
      * Connect pattern to lexer
      */
-    function connectTo($mode) {       
+    function connectTo($mode) {
             $this->Lexer->addEntryPattern('<solution>(?=.*?</solution>)',$mode,'plugin_labsolution');
     }
 
@@ -104,7 +107,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       $last_sol_lab = $this->getConf('last_sol_lab');
       $this_lab_no = 100;
       $r = $_SERVER['REQUEST_URI'];
-      if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {    
+      if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {
           $p = explode("/",$r);
           $this_lab_no=(int)$p[count($p)-2];
       }
@@ -119,7 +122,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
             case DOKU_LEXER_MATCHED:
                 return array('labsolution_data', $match);
 
-            case DOKU_LEXER_UNMATCHED:                
+            case DOKU_LEXER_UNMATCHED:
                  return array('labsolution_data', $match);
                  #$handler->_addCall('cdata',array($match), $pos);
                  #return false;
@@ -127,7 +130,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
             case DOKU_LEXER_EXIT:
                 return array('labsolution_close', '');
 
-        }       
+        }
         return false;
     }
 
@@ -142,7 +145,7 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       $last_sol_lab = $this->getConf('last_sol_lab');
       $this_lab_no = 100;
       $r = $_SERVER['REQUEST_URI'];
-      if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {    
+      if (preg_match("/\/lab\/\d\d\/[^\/]*/",$r)) {
           $p = explode("/",$r);
           $this_lab_no=(int)$p[count($p)-2];
       }
@@ -150,33 +153,33 @@ class syntax_plugin_labsolution extends DokuWiki_Syntax_Plugin {
       $hidden = $this->is_solution_hidden();
 
       if($mode == 'xhtml'){
-	  $renderer->info['cache'] = false;
+      $renderer->info['cache'] = false;
 
-	  switch ($instr) {
+      switch ($instr) {
 
           case 'labsolution_open' :
-		  if ($hidden == self::SOLUTION_HIDDEN) {
-			  $renderer->doc .= '%%%2121!!!+++CUTHERE+++!!!2121%%%';
-			  break;
-		  }
-		  if ($hidden == self::SOLUTION_SHOW_EDITOR) {
-			  $renderer->doc .= '<div class="solution solution_hidden"><div class="solution_title solution_title_hidden">Rezolvare ascunsă</div><div class="solution_contents">';
-			  break;
-		  }
-		  $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
-		  break;
+          if ($hidden == self::SOLUTION_HIDDEN) {
+              $renderer->doc .= '%%%2121!!!+++CUTHERE+++!!!2121%%%';
+              break;
+          }
+          if ($hidden == self::SOLUTION_SHOW_EDITOR) {
+              $renderer->doc .= '<div class="solution solution_hidden"><div class="solution_title solution_title_hidden">Rezolvare ascunsă</div><div class="solution_contents">';
+              break;
+          }
+          $renderer->doc .= '<div class="solution"><div class="solution_title">Rezolvare</div><div class="solution_contents">';
+          break;
 
-          case 'labsolution_data' :      
+          case 'labsolution_data' :
             if ($hidden == self::SOLUTION_HIDDEN) break;
-            $renderer->doc .= $renderer->_xmlEntities($data); 
+            $renderer->doc .= $renderer->_xmlEntities($data);
             break;
 
           case 'labsolution_close' :
-	    if ($hidden == self::SOLUTION_HIDDEN) {
-	      $parts = preg_split("/%%%2121!!!\+\+\+CUTHERE\+\+\+!!!2121%%%/", $renderer->doc);
-	      $renderer->doc = $parts[0];
-	      break;
-	    }
+        if ($hidden == self::SOLUTION_HIDDEN) {
+          $parts = preg_split("/%%%2121!!!\+\+\+CUTHERE\+\+\+!!!2121%%%/", $renderer->doc);
+          $renderer->doc = $parts[0];
+          break;
+        }
             $renderer->doc .= "</div></div>\n";
             break;
         }
