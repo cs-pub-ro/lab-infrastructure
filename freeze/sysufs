@@ -105,7 +105,42 @@ rm -f .DCOPserver*    # cleanup for kdeinit
 #rm -rf /var/cache/apt/archives/*.deb
 
 # clean network interface information
-rm -f /etc/udev/rules.d/70-persistent-net.rules
+#rm -f /etc/udev/rules.d/70-persistent-net.rules
+
+# persistent interface names
+# use PCI Bus ID number to sort interfaces
+# * http://www.linuxfromscratch.org/blfs/view/development/chapter07/network.html
+# rebuild /etc/network/interfaces with all interfaces configured with DHCP
+cat >/etc/network/interfaces <<EOF
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+EOF
+
+intno=0
+for dir in /sys/class/net/* ; do
+    [ -e $dir/device ] && {
+        # this lists Bus ID numbers for each interface
+        basename $(readlink -f $dir/device)
+    }
+done | sort -ur | while read busid; do
+    # Bus ID numbers are
+    # * selected to be unique (as one interface might appear multiple times)
+    # * sorted in reverse, as the built-in Ethernet interface is usually placed
+    #   last, and we want it to be eth0
+    echo ACTION==\"add\", SUBSYSTEM==\"net\", BUS==\"pci\", KERNELS==\"$busid\", NAME=\"eth$intno\"
+    echo -e "iface eth$intno inet dhcp\n" >> /etc/network/interfaces
+    # The /etc/network/interfaces file is built without "auto ethX" because
+    # we do not want the system on boot to wait for DHCP on each interface.
+    # Instead, we start in background one dhclient command for each interface.
+    dhclient "eth$intno" &
+    intno=$[$intno + 1]
+done > /etc/udev/rules.d/70-persistent-net.rules # save rules in a file
+# The generated files will be used on next boot
 
 # clean sudo commands traces
 rm -rf /var/log/auth.log*
