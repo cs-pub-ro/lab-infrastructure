@@ -1,0 +1,23 @@
+== Instalare script-uri de freeze
+
+Aveti nevoie de cele 2 fisiere atasate acestei pagini
+
+Se ruleaza ca root comanda ./install-freeze sysufs
+
+Se editeaza fisierul /etc/init.d/sysufs si se seteaza variabila
+UNFROZEN_DISK sa arate catre partitia speciala de freezing
+
+Partitia o aflati folosind fdisk -l si mount
+
+Reboot si testati ca e freezed
+
+Verificati log-ul /var/log/syslog pentru mesaje de eroare de-ale lui
+sysufs. Daca da un mesaj ciudat cu cannot mount, incercati sa schimbati
+in script tipul partitiei de la ext3 la ext4 (in special la partea de
+mount)
+
+=== Am uitat ceva. Cum fac unfreeze?
+
+La meniul de boot, se apasa tasta `e` si se editeaza linia de comanda
+transmisa kernel-ului. Se adauga la sfarsit optiunea `nofreeze` (fara
+ghilimele). A se citi si script-urile de freeze inainte de instalare.
