@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get -y install gawk default-jdk tcpdump gcc g++ build-essential man-db manpages-dev manpages-posix-dev wget curl htop netcat iperf nmap gzip bzip2 zip unzip unrar p7zip lzma xz-utils subversion mercurial less sed hexedit elfutils strace ltrace finger tree pciutils usbutils lsof bash bash-completion pwgen host gdb valgrind ctags cscope expect emacs dia inkscape texlive-latex3 python2.7 gcc-multilib iotop radare2 nasm apt-file linux-tools-common lynx ncftp sysstat dlocate ldap-utils mailutils net-tools ethtool avahi-daemon tmux screen dtach dnsutils coreutils bsdmainutils flex bison nmap
+sudo apt-get -y install gawk default-jdk tcpdump gcc g++ build-essential man-db manpages-dev manpages-posix-dev wget curl htop netcat iperf nmap gzip bzip2 zip unzip unrar p7zip lzma xz-utils subversion mercurial less sed hexedit elfutils strace ltrace finger tree pciutils usbutils lsof bash bash-completion pwgen host gdb valgrind ctags cscope expect emacs emacs-goodies-el dia inkscape texlive-latex3 python2.7 gcc-multilib iotop radare2 nasm apt-file linux-tools-common lynx ncftp sysstat dlocate ldap-utils mailutils net-tools ethtool avahi-daemon tmux screen dtach dnsutils coreutils bsdmainutils flex bison nmap
 sudo dpkg --add-architecture i386
 sudo apt-get -y install libc6:i386 libstdc++6:i386
 sudo apt-file update
