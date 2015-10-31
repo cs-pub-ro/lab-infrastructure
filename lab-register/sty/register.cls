@@ -16,24 +16,79 @@
 \LoadClass[a4paper,10pt,oneside,final]{article}
 
 % Specify course name as a class option.
-\DeclareOption{so}{
-  \def\@course{Sisteme de Operare}
-  \def\@courselogo{img/so}
-  \def\@courselogoscale{0.08}
-}
 \DeclareOption{uso}{
   \def\@course{Utilizarea Sistemelor de Operare}
   \def\@courselogo{img/uso}
   \def\@courselogoscale{0.08}
 }
+\DeclareOption{iocla}{
+  \def\@course{Introducere în Organizarea Calculatorului și Limbaj de Asamblare}
+  \def\@courselogo{img/iocla}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{rl}{
+  \def\@course{Rețele Locale}
+  \def\@courselogo{img/rl}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{so}{
+  \def\@course{Sisteme de Operare}
+  \def\@courselogo{img/so}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{pr}{
+  \def\@course{Proiectarea Rețelelor}
+  \def\@courselogo{img/pr}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{cpl}{
+  \def\@course{Compilatoare}
+  \def\@courselogo{img/cpl}
+  \def\@courselogoscale{0.08}
+}
 \DeclareOption{so2}{
   \def\@course{Sisteme de Operare 2}
-  \def\@courselogo{img/so}
+  \def\@courselogo{img/so2}
   \def\@courselogoscale{0.08}
 }
 \DeclareOption{soa}{
   \def\@course{Sisteme de Operare Avansate}
   \def\@courselogo{img/soa}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{osp}{
+  \def\@course{Operating Systems (practical)}
+  \def\@courselogo{img/osp}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{cns}{
+  \def\@course{Computer and Network Security}
+  \def\@courselogo{img/cns}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{scr}{
+  \def\@course{Securitatea Calculatoarelor și Rețelelor}
+  \def\@courselogo{img/scr}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{gsr}{
+  \def\@course{Gestiunea Serviciilor de Rețea}
+  \def\@courselogo{img/gsr}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{saisp}{
+  \def\@course{Servicii Avansate pentru ISP}
+  \def\@courselogo{img/saisp}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{sred}{
+  \def\@course{Servicii Avansate pentru ISP}
+  \def\@courselogo{img/sred}
+  \def\@courselogoscale{0.08}
+}
+\DeclareOption{etm}{
+  \def\@course{Instrumente Informatice pentru Antreprenoriat și Management Tehnologic}
+  \def\@courselogo{img/etm}
   \def\@courselogoscale{0.08}
 }
 
