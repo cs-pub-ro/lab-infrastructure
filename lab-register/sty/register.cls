@@ -24,7 +24,7 @@
 \DeclareOption{iocla}{
   \def\@course{Introducere în Organizarea Calculatorului și Limbaj de Asamblare}
   \def\@courselogo{img/iocla}
-  \def\@courselogoscale{0.08}
+  \def\@courselogoscale{0.2}
 }
 \DeclareOption{rl}{
   \def\@course{Rețele Locale}
@@ -44,7 +44,7 @@
 \DeclareOption{cpl}{
   \def\@course{Compilatoare}
   \def\@courselogo{img/cpl}
-  \def\@courselogoscale{0.08}
+  \def\@courselogoscale{0.06}
 }
 \DeclareOption{so2}{
   \def\@course{Sisteme de Operare 2}
