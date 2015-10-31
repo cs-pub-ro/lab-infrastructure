@@ -93,7 +93,7 @@
 }
 
 % Use this option if the layout should be two sets per page.
-\DeclareOption{twosetsperpage}{\def\@twosets{true}}
+\DeclareOption{twosetsperpage}{\def\@twosets}
 \ProcessOptions
 
 \usepackage{kvoptions}
@@ -180,7 +180,6 @@
 }
 
 % Print register on one or two pages. Option is provided as class option.
-\def\@twosets{false}
 \newcommand\makecontent{
   \ifdefined\@twosets
     \begin{minipage}[t][0.5\paperheight][t]{\textwidth}
