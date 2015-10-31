@@ -1,6 +1,6 @@
 TEXFILES = texfiles
 STY_DIR = sty
-BASENAMES = seed
+BASENAMES = sample
 PDFFILES = $(addsuffix .pdf,$(BASENAMES))
 CLASSFILE = $(STY_DIR)/register.cls
 
