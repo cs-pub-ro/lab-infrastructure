@@ -1,2 +1,12 @@
 .DS_Store
 *~
+*.swp
+*.swo
+*.zip
+*.rar
+*.tar
+*gz
+*bz2
+*.o
+*.so
+*.a
