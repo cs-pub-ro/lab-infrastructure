@@ -91,7 +91,16 @@
   \def\@courselogo{img/etm}
   \def\@courselogoscale{0.08}
 }
-
+\DeclareOption{asc}{
+  \def\@course{Arhitectura Sistemelor de Calcul}
+  \def\@courselogo{img/asc}
+  \def\@courselogoscale{0.3}
+}
+\DeclareOption{app}{
+  \def\@course{Arhitecturi și Prelucrări Paralele}
+  \def\@courselogo{img/app}
+  \def\@courselogoscale{0.08}
+}
 % Use this option if the layout should be two sets per page.
 \DeclareOption{twosetsperpage}{\def\@twosets}
 \ProcessOptions
