@@ -27,8 +27,8 @@ or you can pass the class name (small letters) to the `make` command to
 generate only the PDF lab register file for that class:
 
 ```
-make so
-make osp
+make so.pdf
+make osp.pdf
 ```
 
 # Tuning
@@ -104,7 +104,7 @@ required, as discussed in the Tuning section above.
 5. Compile out the PDF file using:
 
 ```
-make <class-name>
+make <class-name>.pdf
 ```
 
 where `<class-name>` is the name of the class.
