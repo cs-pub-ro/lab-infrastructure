@@ -82,7 +82,7 @@
   \def\@courselogoscale{0.08}
 }
 \DeclareOption{sred}{
-  \def\@course{Servicii Avansate pentru ISP}
+  \def\@course{Securizarea Rețelelor cu Echipamente Dedicate}
   \def\@courselogo{img/sred}
   \def\@courselogoscale{0.08}
 }
