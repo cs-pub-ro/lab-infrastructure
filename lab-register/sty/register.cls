@@ -101,6 +101,11 @@
   \def\@courselogo{img/app}
   \def\@courselogoscale{0.08}
 }
+\DeclareOption{mps}{
+  \def\@course{Managementul Proiectelor Software}
+  \def\@courselogo{img/mps}
+  \def\@courselogoscale{0.2}
+}
 % Use this option if the layout should be two sets per page.
 \DeclareOption{twosetsperpage}{\def\@twosets}
 \ProcessOptions

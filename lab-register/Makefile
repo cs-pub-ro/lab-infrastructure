@@ -1,7 +1,8 @@
 TEXFILES = texfiles
 STY_DIR = sty
 BASENAMES = sample-15 sample-20 sample-30 \
-	    uso iocla rl so pr cpl so2 osp cns gsr scr sred saisp etm asc app
+	    uso iocla rl so pr cpl so2 osp cns gsr scr sred saisp etm \
+	    asc app mps
 PDFFILES = $(addsuffix .pdf,$(BASENAMES))
 CLASSFILE = $(STY_DIR)/register.cls
 
