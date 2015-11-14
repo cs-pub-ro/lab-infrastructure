@@ -63,10 +63,13 @@ option.
 
 ## Examples
 
-The `sample-15` uses two tables of `15` rows with a `1.5` row spacing.
-The `sample-20.tex` file uses two tables of `20` rows with a `1.2` row
-spacing. The `sample-30.tex` file uses a single table of `30` rows with
+The `generic-15` uses two tables of `15` rows with a `1.5` row spacing.
+The `generic-20.tex` file uses two tables of `20` rows with a `1.2` row
+spacing. The `generic-30.tex` file uses a single table of `30` rows with
 a `1.5` row spacing.
+
+These files are generic lab registers you can use for a new class, in
+case you have no logo available.
 
 # Adding a New Class
 

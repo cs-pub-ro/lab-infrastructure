@@ -16,6 +16,11 @@
 \LoadClass[a4paper,10pt,oneside,final]{article}
 
 % Specify course name as a class option.
+\DeclareOption{generic}{
+  \def\@course{Generic Class}
+  \def\@courselogo{img/cse}
+  \def\@courselogoscale{0.06}
+}
 \DeclareOption{uso}{
   \def\@course{Utilizarea Sistemelor de Operare}
   \def\@courselogo{img/uso}
