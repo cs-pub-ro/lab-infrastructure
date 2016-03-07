@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Overlayfs script
+Comment=Freeze system after GNOME starts
+Exec=/usr/bin/sudo /sbin/sysoverlayfs
+X-GNOME-Autostart-enabled=true
+Terminal=false
