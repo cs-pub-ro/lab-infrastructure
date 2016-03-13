@@ -31,6 +31,11 @@
   \def\@courselogo{img/iocla}
   \def\@courselogoscale{0.2}
 }
+\DeclareOption{pp}{
+  \def\@course{Paradigme de Programare}
+  \def\@courselogo{img/pp}
+  \def\@courselogoscale{.8}
+}
 \DeclareOption{rl}{
   \def\@course{Rețele Locale}
   \def\@courselogo{img/rl}
