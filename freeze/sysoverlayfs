@@ -30,7 +30,7 @@
 # depending on the kernel version, the partitions are named for example
 # hda6 or sda6
 #UNFROZEN_DISK_MATCH=/dev/[sh]da3
-UNFROZEN_DISK=/dev/sda7
+UNFROZEN_DISK=/dev/sda6
 
 # Uncomment the line below to prevent the script from running.
 # Doing this will leave the system unfrozen.
@@ -185,49 +185,44 @@ rm -rf /.systmp/*
 #APT_DIRS="/var/lig/dpkg /var/lib/apt /var/lib/aptitude"
 #MAIL_DIRS="/var/lib/mail /var/lib/postfix /var/lib/courier"
 
-#dir_list="/var/www /var/spool/cron/crontabs /var/lib /var/spool /var/cache/bind"
-dir_list="/var/www /var/spool/cron/crontabs /var/spool /var/cache/bind"
-#dir_list=""
-
 # old version; kept out of nostalgy
 #for i in $(ls -al / | grep ^d | tr -s ' ' | cut -d ' ' -f 9 | grep -v ^\\.); do
 
-for i in $(find / -maxdepth 1 -type d | tail -n +2 | cut -c 2- | grep -v '^\.'); do
-    mkdir -p /.systmp/$i
+dir_list=$(find / -maxdepth 1 -maxdepth 1 -type d | grep -v '\(/tmp\|/cdrom\|/sys\|/proc\|/.systmp\|/dev\|/run\|/selinux\)')
+
+for d in $dir_list; do
+    subdir_list=$(find "$d" -maxdepth 1 -mindepth 1 -type d)
+    for sd in $subdir_list; do
+        mkdir -p /.systmp"$sd"
+    done
+    # Create workdir for overlayfs.
+    mkdir -p /.systmp/workdir-${d/\//}
+done
+sudo chown student:student /.systmp/workdir-home
+
+#extra_dir_list="/var/www /var/spool/cron/crontabs /var/lib /var/spool /var/cache/bind"
+#extra_dir_list="/var/www /var/spool/cron/crontabs /var/spool /var/cache/bind"
+#extra_dir_list=""
+
+#for d in $extra_dir_list; do
+#    mkdir -p /.systmp"$d"
+#    [ ! -d $i ] && mkdir -p $i
+#    mkdir -p /.systmp/workdir-${d/\//}
+#done
+
+
+# Freeze directories.
+for d in $dir_list; do
+    /bin/mount -t overlay -o upperdir=/.systmp$d,lowerdir=$d,workdir=/.systmp/workdir-${d/\//} overlay $d
 done
 
-# Create workdir for overlayfs.
-mkdir -p /.systmp/workdir
-
-for i in $dir_list; do
-    mkdir -p /.systmp$i
-    [ ! -d $i ] && mkdir -p $i
-done
-
-# freezing
-/bin/mount -t overlay -o upperdir=/.systmp/bin,lowerdir=/bin,workdir=/.systmp/workdir overlay /bin
-/bin/mount -t overlay -o upperdir=/.systmp/boot,lowerdir=/boot,workdir=/.systmp/workdir overlay /boot
-/bin/mount -t overlay -o upperdir=/.systmp/etc,lowerdir=/etc,workdir=/.systmp/workdir overlay /etc
-/bin/mount -t overlay -o upperdir=/.systmp/lib,lowerdir=/lib,workdir=/.systmp/workdir overlay /lib
-/bin/mount -t overlay -o upperdir=/.systmp/lost+found,lowerdir=/lost+found,workdir=/.systmp/workdir overlay /lost+found
-/bin/mount -t overlay -o upperdir=/.systmp/mnt,lowerdir=/mnt,workdir=/.systmp/workdir overlay /mnt
-/bin/mount -t overlay -o upperdir=/.systmp/opt,lowerdir=/opt,workdir=/.systmp/workdir overlay /opt
-/bin/mount -t overlay -o upperdir=/.systmp/root,lowerdir=/root,workdir=/.systmp/workdir overlay /root
-/bin/mount -t overlay -o upperdir=/.systmp/sbin,lowerdir=/sbin,workdir=/.systmp/workdir overlay /sbin
-#/bin/mount -t overlay -o upperdir=/.systmp/selinux,lowerdir=/selinux,workdir=/.systmp/workdir overlay /selinux
-/bin/mount -t overlay -o upperdir=/.systmp/srv,lowerdir=/srv,workdir=/.systmp/workdir overlay /srv
-#/bin/mount -t overlay -o upperdir=/.systmp/initrd,lowerdir=/initrd,workdir=/.systmp/workdir overlay /initrd
-/bin/mount -t overlay -o upperdir=/.systmp/usr,lowerdir=/usr,workdir=/.systmp/workdir overlay /usr
-#/bin/mount -t overlay -o upperdir=/.systmp/var,lowerdir=/var,workdir=/.systmp/workdir overlay /var
-
-# freeze extra directories
-for i in $dir_list; do
-    /bin/mount -t overlay -o upperdir=/.systmp$i,lowerdir=$i,workdir=/.systmp/workdir overlay $i
-done
-
-/bin/mount -t overlay -o upperdir=/.systmp/home,lowerdir=/home,workdir=/.systmp/workdir overlay /home
+## Freeze extra directories.
+#for d in $extra_dir_list; do
+#    /bin/mount -t overlay -o upperdir=/.systmp$d,lowerdir=$d,workdir=/.systmp/workdir-${d/\//} overlay $d
+#done
 
 # script protection by default (probably useless if they have root access)
 chmod 111 ${EXEC_PATH}
 
 logger -s -t "sysoverlayfs"  "Freezing complete. Enjoy."
+sudo chown student:student /home/student
