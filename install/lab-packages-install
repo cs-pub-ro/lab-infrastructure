@@ -9,6 +9,8 @@ sudo apt-get clean
 sudo apt-get autoclean
 sudo apt-get -y install virtualbox gnuplot-x11 gawk openjdk-8-jdk chromium-browser tcpdump gcc g++ build-essential gitk git-gui man-db manpages-dev manpages-posix-dev flashplugin-nonfree wget curl htop netcat iperf nmap gzip bzip2 zip unzip unrar p7zip lzma xz-utils subversion mercurial less sed bless hexedit ghex elfutils strace ltrace finger tree pciutils usbutils lsof bash bash-completion pwgen host gdb valgrind ctags cscope expect emacs emacs-goodies-el dia inkscape texlive-latex3 python2.7 gparted gcc-multilib vim-gnome iotop radare2 nasm apt-file linux-tools-common lynx filezilla ncftp sysstat dlocate ldap-utils mailutils net-tools ethtool avahi-daemon tmux screen dtach octave dnsutils coreutils bsdmainutils flex bison openttd nmap wireshark ghex lshw hwinfo inxi dmidecode pydf
 sudo dpkg --add-architecture i386
-sudo apt-get -y install libc6:i386 libstdc++6:i386
+sudo apt-get -y install libc6:i386 libstdc++6:i386 libc6-dev:i386 libstdc++-4.9-dev:i386 gcc-multilib g++-multilib
+sudo apt-get -y install flashplugin-installer wget curl htop netcat bridge-utils iperf iw wireless-tools hostapd nmap wireshark openssh-server gzip bzip2 zip unzip unrar p7zip lzma xz-utils subversion mercurial bless hexedit ghex elfutils strace ltrace finger tree pciutils usbutils lsof bash bash-completion pwgen host dnsutils gdb valgrind ctags cscope expect
+sudo apt-get -y install radare2 nasm linux-tools-common lynx filezilla ncftp sysstat dlocate ldap-utils mailutils
+sudo apt-get -y install net-tools ethtool avahi-daemon screen tmux dtach octave nfs-kernel-server nfs-common samba memcached libmemcached-dev
 sudo apt-file update
-sudo usermod -a -G wireshark $USER
