@@ -1,0 +1,9 @@
+Ubuntu
+Ubuntu, with Linux 3.19.0-84-generic
+Ubuntu, with Linux 3.19.0-84-generic (recovery mode)
+Ubuntu, with Linux 3.19.0-30-generic
+Ubuntu, with Linux 3.19.0-30-generic (recovery mode)
+Memory test (memtest86+)
+Memory test (memtest86+, serial console 115200)
+Windows 7 (loader) (on /dev/sda1)
+UDPCast (manual)

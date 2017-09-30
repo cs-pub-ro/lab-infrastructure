@@ -1,0 +1,15 @@
+Screen 0: minimum 8 x 8, current 1280 x 1024, maximum 32767 x 32767
+DP1 disconnected (normal left inverted right x axis y axis)
+HDMI1 disconnected (normal left inverted right x axis y axis)
+VGA1 connected primary 1280x1024+0+0 (normal left inverted right x axis y axis) 338mm x 270mm
+   1280x1024      60.0*+   75.0  
+   1280x960       60.0  
+   1280x800       59.8  
+   1152x864       75.0  
+   1152x720       60.0  
+   1024x768       75.1     60.0  
+   832x624        74.6  
+   800x600        75.0     60.3  
+   640x480        75.0     60.0  
+   720x400        70.1  
+VIRTUAL1 disconnected (normal left inverted right x axis y axis)

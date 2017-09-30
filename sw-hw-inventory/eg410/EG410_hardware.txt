@@ -1,0 +1,48 @@
+System:    Host: eg410-pc Kernel: 3.19.0-84-generic x86_64 (64 bit gcc: 4.9.2)
+           Desktop: Gnome 3.14.4 (Gtk 3.14.13-0ubuntu1) info: gnome-shell dm: gdm
+           Distro: Ubuntu 15.04 vivid
+Machine:   System: Dell product: OptiPlex 760 Chassis: type: 15
+           Mobo: Dell model: 0M863N v: A01 Bios: Dell v: A06 date: 12/23/2009
+CPU:       Dual core Pentium E5300 (-MCP-) cache: 2048 KB
+           flags: (lm nx sse sse2 sse3 ssse3 vmx) bmips: 10373
+           clock speeds: min/max: 1200/2600 MHz 1: 2600 MHz 2: 2600 MHz
+Memory:    Using dmidecode: you must be root to run dmidecode
+Graphics:  Card: Intel 4 Series Integrated Graphics Controller
+           bus-ID: 00:02.0 chip-ID: 8086:2e12
+           Display Server: X.Org 1.17.1 drivers: intel (unloaded: fbdev,vesa)
+           Resolution: 1280x1024@60.0hz
+           GLX Renderer: Mesa DRI Intel Q45/Q43
+           GLX Version: 2.1 Mesa 10.5.9 Direct Rendering: Yes
+Audio:     Card Intel 82801JD/DO (ICH10 Family) HD Audio Controller
+           driver: snd_hda_intel bus-ID: 00:1b.0 chip-ID: 8086:3a6e
+           Sound: Advanced Linux Sound Architecture v: k3.19.0-84-generic
+Network:   Card: Intel 82567LM-3 Gigabit Network Connection
+           driver: e1000e v: 2.3.2-k port: ece0
+           bus-ID: 00:19.0 chip-ID: 8086:10de
+           IF: eth1 state: up speed: 100 Mbps duplex: full
+           mac: 00:25:64:d3:7a:e2
+           WAN IP: 141.85.225.205
+           IF: eth1 ip: 172.16.6.99 ip-v6: fe80::225:64ff:fed3:7ae2
+Drives:    HDD Total Size: 160.0GB (7.7% used)
+           ID-1: /dev/sda model: SAMSUNG_HD161GJ size: 160.0GB serial: S1VCJ90SA76111 temp: 25C
+           Optical: /dev/sr0 model: TSST DVD+-RW TS-L633C
+           rev: DW10 dev-links: cdrom,cdrw,dvd,dvdrw
+           Features: speed: 24x multisession: yes
+           audio: yes dvd: yes rw: cd-r,cd-rw,dvd-r,dvd-ram state: running
+Partition: ID-1: / size: 29G used: 7.6G (29%) fs: ext4 dev: /dev/sda6
+           label: N/A uuid: 005b0a19-2800-4c05-b3f6-25125f0f270e
+           ID-2: /.systmp size: 29G used: 335M (2%) fs: ext3 dev: /dev/sda7
+           label: N/A uuid: cbc38599-7305-416c-8127-a466eb13f119
+           ID-3: swap-1 size: 4.10GB used: 0.08GB (2%) fs: swap dev: /dev/sda5
+           label: N/A uuid: ffe93f98-9b3f-4521-9022-24181a95113d
+RAID:      System: supported: N/A
+           No RAID devices: /proc/mdstat, md_mod kernel module present
+           Unused Devices: none
+Unmounted: ID-1: /dev/sda1 size: 0.52G
+           label: System Reserved uuid: F602706202702A2F
+           ID-2: /dev/sda2 size: 93.85G label: N/A uuid: 62581051581025F7
+Sensors:   System Temperatures: cpu: 31.0C mobo: N/A
+           Fan Speeds (in rpm): cpu: N/A
+Info:      Processes: 199 Uptime: 7 min Memory: 899.2/1932.2MB
+           Init: systemd v: 219 runlevel: 5 Gcc sys: 4.9.2
+           Client: Shell (get running in bash) inxi: 2.2.16
