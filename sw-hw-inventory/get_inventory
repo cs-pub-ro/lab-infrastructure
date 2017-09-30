@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if test "$#" -ne 1; then
+    echo "Usage: $0 room_name" 1>&2
+    exit 1
+fi
+
+room="$1"
+
+awk -F"'" '/menuentry / {print $2}' /boot/grub/grub.cfg > "$room"_boot_list.txt
+(lsblk ; echo ; sudo parted -l) > "$room"_partitions.txt
+lsb_release -a > "$room"_distro.txt
+uname -a > "$room"_kernel.txt
+apt list --installed > "$room"_installed_packages.txt
+inxi -v7 -c0 > "$room"_hardware.txt
+lspci > "$room"_pci.txt
+xrandr > "$room"_display.txt
