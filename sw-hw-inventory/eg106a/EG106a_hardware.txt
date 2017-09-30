@@ -1,0 +1,90 @@
+System:    Host: eg106 Kernel: 4.10.0-35-generic x86_64 (64 bit gcc: 6.3.0)
+           Desktop: Gnome 3.24.2 (Gtk 3.22.11-0ubuntu3) info: gnome-shell dm: gdm3
+           Distro: Ubuntu 17.04
+Machine:   Device: desktop System: Dell product: OptiPlex 790 v: 01
+           Mobo: Dell model: 0HY9JP v: A00 BIOS: Dell v: A05 date: 05/28/2011
+           Chassis: type: 6
+CPU:       Quad core Intel Core i5-2500 (-MCP-) cache: 6144 KB
+           flags: (lm nx sse sse2 sse3 sse4_1 sse4_2 ssse3 vmx) bmips: 26340
+           clock speeds: min/max: 1600/3700 MHz 1: 1608 MHz 2: 1681 MHz
+           3: 1599 MHz 4: 1607 MHz
+Memory:    Using dmidecode: you must be root to run dmidecode
+Graphics:  Card: Intel 2nd Generation Core Processor Family Integrated Graphics Controller
+           bus-ID: 00:02.0 chip-ID: 8086:0102
+           Display Server: X.Org 1.19.3 driver: N/A
+           Resolution: 1920x1080@60.00hz
+           GLX Renderer: Mesa DRI Intel Sandybridge Desktop
+           GLX Version: 3.0 Mesa 17.0.7 Direct Rendering: Yes
+Audio:     Card Intel 6 Series/C200 Series Family High Definition Audio Controller
+           driver: snd_hda_intel bus-ID: 00:1b.0 chip-ID: 8086:1c20
+           Sound: Advanced Linux Sound Architecture v: k4.10.0-35-generic
+Network:   Card: Intel 82579LM Gigabit Network Connection
+           driver: e1000e v: 3.2.6-k port: 3060
+           bus-ID: 00:19.0 chip-ID: 8086:1502
+           IF: eno1 state: up speed: 1000 Mbps duplex: full
+           mac: 18:03:73:ad:3b:91
+           WAN IP: 141.85.225.205
+           IF: vmnet8 ip-v4: 192.168.71.1 ip-v6: fe80::250:56ff:fec0:8
+           IF: eno1 ip-v4: 172.16.5.213 ip-v6: fe80::9f7c:3434:ad68:b291
+           IF: vmnet1 ip-v4: 192.168.95.1 ip-v6: fe80::250:56ff:fec0:1
+Drives:    HDD Total Size: 500.1GB (9.9% used)
+           ID-1: /dev/sda model: WDC_WD5000AAKX size: 500.1GB
+           serial: WD-WMAYU2098885 temp: 28C
+           Optical: /dev/sr0 model: Optiarc DVD+-RW AD-7250H
+           rev: 100A dev-links: cdrom,cdrw,dvd,dvdrw
+           Features: speed: 48x multisession: yes
+           audio: yes dvd: yes rw: cd-r,cd-rw,dvd-r,dvd-ram state: running
+Partition: ID-1: / size: 94G used: 32G (36%) fs: ext4 dev: /dev/sda8
+           label: N/A uuid: 61534016-ef6c-4db9-8560-f7df8298e8a4
+           ID-2: /mnt size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-3: /.systmp size: 94G used: 248M (1%) fs: ext4 dev: /dev/sda5
+           label: N/A uuid: 12642281-4e7a-4892-a111-88fcd53ad357
+           ID-4: /bin size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-5: /libx32 size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-6: /lost+found size: 94G used: 248M (1%) fs: overlay dev: N/A
+           label: N/A uuid: N/A
+           ID-7: /var size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-8: /home size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-9: /opt size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-10: /lib64 size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-11: /media size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-12: /boot size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-13: /srv size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-14: /root size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-15: /sbin size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-16: /usr size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-17: /lib32 size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-18: /etc size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-19: /lib size: 94G used: 248M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-20: swap-1 size: 16.39GB used: 0.00GB (0%) fs: swap dev: /dev/sda6
+           label: N/A uuid: 9ca1834e-8026-4821-80ed-f21edfcf9a53
+RAID:      System: supported: N/A
+           No RAID devices: /proc/mdstat, md_mod kernel module present
+           Unused Devices: none
+Unmounted: ID-1: /dev/sda1 size: 0.10G
+           fs: NTFS label: System Reserved uuid: 2E36B67436B63D21
+           ID-2: /dev/sda2 size: 107.28G
+           fs: NTFS label: N/A uuid: 6A72BC3372BC05BB
+           ID-3: /dev/sda7 size: 171.52G
+           fs: ext4 label: N/A uuid: 7d1aa666-0943-447c-a869-750e69bcd99e
+Sensors:   System Temperatures: cpu: 32.0C mobo: N/A
+           Fan Speeds (in rpm): cpu: N/A
+Info:      Processes: 248 Uptime: 3 min Memory: 948.3/7860.9MB
+           Init: systemd v: 232 runlevel: 5 Gcc sys: 6.3.0
+           Client: Shell (get running in bash) inxi: 2.3.8
