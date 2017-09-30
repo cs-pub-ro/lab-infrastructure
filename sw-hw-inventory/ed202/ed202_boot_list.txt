@@ -1,0 +1,7 @@
+
+Debian GNU/Linux, with Linux 3.2.0-4-amd64
+Debian GNU/Linux, with Linux 3.2.0-4-amd64 (recovery mode)
+Debian GNU/Linux, with Xen 4.1-amd64 and Linux 3.2.0-4-amd64
+Debian GNU/Linux, with Xen 4.1-amd64 and Linux 3.2.0-4-amd64 (recovery mode)
+
+UDPCast (manual)

@@ -1,0 +1,4 @@
+Distributor ID:	Debian
+Description:	Debian GNU/Linux 7.11 (wheezy)
+Release:	7.11
+Codename:	wheezy

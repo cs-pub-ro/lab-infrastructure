@@ -1,0 +1,48 @@
+System:    Host: mjolnir Kernel: 3.2.0-4-amd64 x86_64 bits: 64 gcc: 4.6.3
+           Desktop: Gnome 3.4.2 (Gtk 3.4.2-7+deb7u1) info: gnome-panel dm: gdm3
+           Distro: Debian GNU/Linux 7 (wheezy)
+Machine:   Device: desktop System: Hewlett-Packard product: HP Compaq 8200 Elite CMT PC serial: N/A
+           Mobo: Hewlett-Packard model: 1494 serial: N/A BIOS: Hewlett-Packard v: J01 v02.06 date: 06/09/2011
+           Chassis: type: 6 serial: N/A
+CPU:       Dual core Intel Core i3-2120 (-HT-MCP-) arch: Sandy Bridge rev.7 cache: 3072 KB
+           flags: (lm nx sse sse2 sse3 sse4_1 sse4_2 ssse3 vmx) bmips: 13169
+           clock speeds: min/max: 1600/3300 MHz 1: 1600 MHz 2: 1600 MHz 3: 1600 MHz 4: 1600 MHz
+Memory:    Using dmidecode: root required for dmidecode
+Graphics:  Card-1: Intel 2nd Generation Core Processor Family Integrated Graphics Controller
+           bus-ID: 00:02.0 chip-ID: 8086:0102
+           Card-2: Advanced Micro Devices [AMD] ATI Turks [Radeon HD 6570] bus-ID: 01:00.0 chip-ID: 1002:6759
+           Display Server: X.Org 1.12.4 drivers: intel (unloaded: fbdev,vesa) Resolution: 1920x1080@60.0hz
+           OpenGL: renderer: Mesa DRI Intel Sandybridge Desktop version: 3.0 Mesa 8.0.5 Direct Render: Yes
+Audio:     Card-1 Intel 6 Series/C200 Series Family High Definition Audio Controller
+           driver: snd_hda_intel bus-ID: 00:1b.0 chip-ID: 8086:1c20
+           Card-2 Advanced Micro Devices [AMD] ATI Turks/Whistler HDMI Audio [Radeon HD 6000 Series]
+           driver: snd_hda_intel bus-ID: 01:00.1 chip-ID: 1002:aa90
+           Sound: Advanced Linux Sound Architecture v: 1.0.24
+Network:   Card: Intel 82579LM Gigabit Network Connection
+           driver: e1000e v: 2.3.2-k port: f080 bus-ID: 00:19.0 chip-ID: 8086:1502
+           IF: eth0 state: up speed: 100 Mbps duplex: full mac: 2c:41:38:96:7c:f5
+           WAN IP: 141.85.225.204
+           IF: vmnet8 ip-v4: 192.168.154.1 ip-v6-link: fe80::250:56ff:fec0:8
+           IF: eth0 ip-v4: 172.16.7.155 ip-v6-link: fe80::2e41:38ff:fe96:7cf5
+           IF: vmnet1 ip-v4: 172.16.232.1 ip-v6-link: fe80::250:56ff:fec0:1
+Drives:    HDD Total Size: 300.1GB (22.2% used)
+           ID-1: /dev/sda model: WDC_WD3000JD size: 300.1GB serial: WD-WCAMR1436482
+           Optical-1: /dev/sr0 model: hp DVD-RAM GH80N rev: RF01 dev-links: cdrom2,cdrw2,dvd2,dvdrw2
+           Features: speed: 40x multisession: yes
+           audio: yes dvd: yes rw: cd-r,cd-rw,dvd-r,dvd-ram state: running
+Partition: ID-1: / size: 60G used: 43G (76%) fs: ext4 dev: /dev/sda3
+           label: N/A uuid: 3e38001a-2006-4bd4-908f-d678ddf113f7
+           ID-2: /var/lib/nfs/rpc_pipefs size: 58G used: 541M (1%) fs: rpc_pipefs dev: /dev/rpc_pipefs
+           label: N/A uuid: N/A
+           ID-3: /.systmp size: 58G used: 541M (1%) fs: ext3 dev: /dev/sda6
+           label: N/A uuid: 7cdfff0f-64a0-4196-a7ca-c2da918abbe6
+           ID-4: swap-1 size: 21.47GB used: 0.00GB (0%) fs: swap dev: /dev/sda7
+           label: N/A uuid: 0a145e60-74a4-4a25-9585-550f505ea392
+RAID:      No RAID data: /proc/mdstat missing-is md_mod kernel module loaded?
+Unmounted: ID-1: /dev/sda1 size: 0.10G fs: NTFS label: System Reserved uuid: 74F6B662F6B62470
+           ID-2: /dev/sda2 size: 64.32G fs: NTFS label: Win 7 uuid: 387EE95F7EE91702
+           ID-3: /dev/sda5 size: 62.91G fs: ext4 label: vm uuid: e7238b03-e71f-4236-8c14-668453466237
+Sensors:   None detected - is lm-sensors installed and configured?
+Info:      Processes: 173 Uptime: 11 min Memory: 1024.0/3856.0MB
+           Init: SysVinit v: 2.88 runlevel: 2 default: 2 Gcc sys: 4.7.2
+           Client: Shell (get_inventory running in bash) inxi: 2.3.40
