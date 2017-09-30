@@ -1,0 +1,54 @@
+System:    Host: eg410-pc Kernel: 3.19.0-84-generic x86_64 (64 bit gcc: 4.9.2)
+           Desktop: Gnome 3.14.4 (Gtk 3.14.13-0ubuntu1) info: gnome-shell dm: gdm
+           Distro: Ubuntu 15.04 vivid
+Machine:   Mobo: N/A model: P45R2000
+           Bios: American Megatrends v: P1.00 date: 06/03/2008
+CPU:       Dual core Intel Core2 Duo E7200 (-MCP-) cache: 3072 KB
+           flags: (lm nx sse sse2 sse3 sse4_1 ssse3) bmips: 10133
+           clock speeds: min/max: 1603/2533 MHz 1: 1870 MHz 2: 1870 MHz
+Memory:    Using dmidecode: you must be root to run dmidecode
+Graphics:  Card: Advanced Micro Devices [AMD/ATI] RV620 LE [Radeon HD 3450]
+           bus-ID: 07:00.0 chip-ID: 1002:95c5
+           Display Server: X.Org 1.17.1 drivers: ati,radeon (unloaded: fbdev,vesa)
+           Resolution: 1280x1024@60.0hz
+           GLX Renderer: Gallium 0.4 on AMD RV620
+           GLX Version: 3.0 Mesa 10.5.9 Direct Rendering: Yes
+Audio:     Card-1 Advanced Micro Devices [AMD/ATI] RV620 HDMI Audio [Radeon HD 3400 Series]
+           driver: snd_hda_intel bus-ID: 07:00.1 chip-ID: 1002:aa28
+           Card-2 Intel 82801JI (ICH10 Family) HD Audio Controller
+           driver: snd_hda_intel bus-ID: 00:1b.0 chip-ID: 8086:3a3e
+           Sound: Advanced Linux Sound Architecture v: k3.19.0-84-generic
+Network:   Card-1: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller
+           driver: r8169 v: 2.3LK-NAPI port: b800
+           bus-ID: 02:00.0 chip-ID: 10ec:8168
+           IF: eth2 state: down mac: 00:19:66:7a:81:2d
+           Card-2: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller
+           driver: r8169 v: 2.3LK-NAPI port: d800
+           bus-ID: 04:00.0 chip-ID: 10ec:8168
+           IF: eth3 state: up speed: 100 Mbps duplex: full
+           mac: 00:19:66:7a:81:2f
+           WAN IP: 141.85.225.204 IF: eth2 ip: N/A ip-v6: N/A
+           IF: eth3 ip: 172.16.5.173 ip-v6: fe80::219:66ff:fe7a:812f
+Drives:    HDD Total Size: 320.1GB (3.8% used)
+           ID-1: /dev/sda model: Hitachi_HDP72503 size: 320.1GB serial: GEAD30RE3D3G3N temp: 28C
+           Optical: /dev/sr0 model: TSST CDDVDW SH-S203P
+           rev: SB00 dev-links: cdrom,cdrw,dvd,dvdrw
+           Features: speed: 48x multisession: yes
+           audio: yes dvd: yes rw: cd-r,cd-rw,dvd-r,dvd-ram state: running
+Partition: ID-1: / size: 29G used: 7.6G (29%) fs: ext4 dev: /dev/sda6
+           label: N/A uuid: 005b0a19-2800-4c05-b3f6-25125f0f270e
+           ID-2: /.systmp size: 29G used: 136M (1%) fs: ext3 dev: /dev/sda7
+           label: N/A uuid: cbc38599-7305-416c-8127-a466eb13f119
+           ID-3: swap-1 size: 4.10GB used: 0.05GB (1%) fs: swap dev: /dev/sda5
+           label: N/A uuid: ffe93f98-9b3f-4521-9022-24181a95113d
+RAID:      System: supported: N/A
+           No RAID devices: /proc/mdstat, md_mod kernel module present
+           Unused Devices: none
+Unmounted: ID-1: /dev/sda1 size: 0.52G
+           label: System Reserved uuid: F602706202702A2F
+           ID-2: /dev/sda2 size: 93.85G label: N/A uuid: 62581051581025F7
+Sensors:   System Temperatures: cpu: 41.0C mobo: N/A gpu: 66.0
+           Fan Speeds (in rpm): cpu: N/A
+Info:      Processes: 192 Uptime: 6 min Memory: 649.0/992.4MB
+           Init: systemd v: 219 runlevel: 5 Gcc sys: 4.9.2
+           Client: Shell (get_inventory running in bash) inxi: 2.2.16
