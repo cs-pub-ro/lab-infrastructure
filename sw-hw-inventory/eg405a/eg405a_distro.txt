@@ -1,0 +1,4 @@
+Distributor ID:	LinuxMint
+Description:	Linux Mint 18.2 Sonya
+Release:	18.2
+Codename:	sonya

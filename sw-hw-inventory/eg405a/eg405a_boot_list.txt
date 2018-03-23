@@ -1,0 +1,8 @@
+Linux Mint 18.2 Cinnamon 64-bit
+Linux Mint 18.2 Cinnamon 64-bit, with Linux 4.8.0-53-generic
+Linux Mint 18.2 Cinnamon 64-bit, with Linux 4.8.0-53-generic (upstart)
+Linux Mint 18.2 Cinnamon 64-bit, with Linux 4.8.0-53-generic (recovery mode)
+Memory test (memtest86+)
+Memory test (memtest86+, serial console 115200)
+Windows 7 (loader) (on /dev/sda1)
+UDPCast (manual)

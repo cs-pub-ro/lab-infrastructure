@@ -1,0 +1,9 @@
+Screen 0: minimum 320 x 200, current 1280 x 1024, maximum 4096 x 4096
+VGA-1 connected primary 1280x1024+0+0 (normal left inverted right x axis y axis) 376mm x 301mm
+   1280x1024     60.02*+  75.02  
+   1024x768      75.03    60.00  
+   800x600       75.00    60.32  
+   640x480       75.00    59.94  
+   720x400       70.08  
+DVI-I-1 disconnected (normal left inverted right x axis y axis)
+TV-1 disconnected (normal left inverted right x axis y axis)

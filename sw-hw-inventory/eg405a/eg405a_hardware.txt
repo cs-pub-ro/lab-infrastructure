@@ -1,0 +1,84 @@
+System:    Host: eg405-pc Kernel: 4.8.0-53-generic x86_64 (64 bit gcc: 5.4.0)
+           Desktop: Cinnamon 3.4.6 (Gtk 3.18.9-1ubuntu3.3) dm: lightdm
+           Distro: Linux Mint 18.2 Sonya
+Machine:   Mobo: ASUSTeK model: P5LD2-SE v: Rev 1.xx
+           Bios: American Megatrends v: 0406 date: 09/26/2006
+CPU:       Dual core Intel Core2 6400 (-MCP-) cache: 2048 KB
+           flags: (lm nx sse sse2 sse3 ssse3 vmx) bmips: 8548
+           clock speeds: min/max: 1596/2128 MHz 1: 1596 MHz 2: 2128 MHz
+Memory:    No dmidecode memory data: try newer kernel.
+Graphics:  Card: NVIDIA G72 [GeForce 7300 LE]
+           bus-ID: 04:00.0 chip-ID: 10de:01d1
+           Display Server: X.Org 1.18.4 drivers: nouveau (unloaded: fbdev,vesa)
+           Resolution: 1280x1024@60.02hz
+           GLX Renderer: Gallium 0.4 on NV46
+           GLX Version: 2.1 Mesa 17.0.7 Direct Rendering: Yes
+Audio:     Card Intel NM10/ICH7 Family High Definition Audio Controller
+           driver: snd_hda_intel bus-ID: 00:1b.0 chip-ID: 8086:27d8
+           Sound: Advanced Linux Sound Architecture v: k4.8.0-53-generic
+Network:   Card: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller
+           driver: r8169 v: 2.3LK-NAPI port: c800
+           bus-ID: 02:00.0 chip-ID: 10ec:8168
+           IF: enp2s0 state: up speed: 100 Mbps duplex: full
+           mac: 00:18:f3:a3:70:87
+           WAN IP: 141.85.225.206
+           IF: enp2s0 ip-v4: 172.16.7.61 ip-v6: fe80::be9e:ef6a:80b8:c876
+Drives:    HDD Total Size: 160.0GB (8.5% used)
+           ID-1: /dev/sda model: WDC_WD1600JS size: 160.0GB serial: WD-WMANM3986568 temp: 37C
+           Optical: /dev/sr0 model: PHILIPS DROM6216
+           rev: DD08 dev-links: cdrom,dvd
+           Features: speed: 48x multisession: yes
+           audio: yes dvd: yes rw: none state: running
+Partition: ID-1: / size: 32G used: 8.9G (30%) fs: ext4 dev: /dev/sda7
+           label: N/A uuid: a274b51e-f405-45f4-ac11-87d1bacbcb70
+           ID-2: /.systmp size: 32G used: 191M (1%) fs: ext4 dev: /dev/sda8
+           label: N/A uuid: 43257db2-470c-4844-8304-d4a12a5d48e2
+           ID-3: /boot size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-4: /mnt size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-5: /lib size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-6: /lib64 size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-7: /home size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-8: /etc size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-9: /lost+found size: 32G used: 191M (1%) fs: overlay dev: N/A
+           label: N/A uuid: N/A
+           ID-10: /root size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-11: /srv size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-12: /sbin size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-13: /media size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-14: /bin size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-15: /lib32 size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-16: /var size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-17: /opt size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-18: /usr size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-19: /libx32 size: 32G used: 191M (1%) fs: overlay dev: /dev/overlay
+           label: N/A uuid: N/A
+           ID-20: swap-1 size: 4.09GB used: 0.00GB (0%) fs: swap dev: /dev/sda5
+           label: N/A uuid: 908001e3-7b0e-4a17-8348-e81495a21f47
+RAID:      System: supported: N/A
+           No RAID devices: /proc/mdstat, md_mod kernel module present
+           Unused Devices: none
+Unmounted: ID-1: /dev/sda1 size: 0.10G
+           fs: NTFS label: System Reserved uuid: 04A83664A8365480
+           ID-2: /dev/sda2 size: 76.05G fs: NTFS label: N/A uuid: N/A
+           ID-3: /dev/sda6 size: 9.79G
+           fs: ext4 label: N/A uuid: e13b86e8-a4a5-4f82-8e26-f261cc777e26
+Sensors:   System Temperatures: cpu: 55.5C mobo: 37.0C gpu: 50.0
+           Fan Speeds (in rpm): cpu: 2678 psu: 0 sys-1: 0
+Info:      Processes: 213 Uptime: 3 min Memory: 827.3/1999.5MB
+           Init: systemd v: 229 runlevel: 5 default: 2 Gcc sys: 5.4.0
+           Client: Shell (get_inventory running in bash) inxi: 2.2.35
