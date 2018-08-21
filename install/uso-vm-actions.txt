@@ -1,0 +1,94 @@
+* User is student with password student. User is sudo-enabled. May use "sudo su" to access the root account.
+* Install VirtualBox Guest Additions.
+* Add second network interface (host-only) to VM to allow for SSH connections to/from host. VM needs to be turned off.
+    Machine -> Settings -> Network -> Adapter 2 -> Enable Network Adapter -> Host-only Adapter (Name: vboxnet0)
+    It may happen that the vboxnet0 virtual network adapter needs to be added. Do:
+    VirtualBox -> Preferences -> Network, then use the buttons on the right to add a new interface.
+* Install Git:
+    sudo apt install git
+* Configure Git:
+    git config --global color.ui auto
+    git config --global user.name 'Student USO VM User'
+    git config --global user.email 'student@stud.acs.upb.ro'
+    sudo git config --global color.ui auto
+    sudo git config --global user.name 'Root USO VM User'
+    sudo git config --global user.email 'student@stud.acs.upb.ro'
+* Clone Razvan's scripts and configs in Documents folder:
+    git clone https://github.com/razvand/snippets snippets.git
+* Install editors:
+    sudo apt install vim emacs
+* Make Vim default editor:
+    sudo update-alternatives --config editor (choose /usr/bin/vim.basic)
+* Configure Vim globally:
+    sudo cp /usr/share/vim/vim80/vimrc_example.vim /etc/vim/vimrc
+* Add additional Vim configuration locally:
+    mkdir -p ~/.vim/bkup
+    cp ~/Documents/snippets.git/config/vim/vimrc_no_cscope ~/.vimrc
+    cp -r ~/Documents/snippets.git/config/vim/ftplugin/ ~/.vim/
+    sudo mkdir -p /root/.vim/bkup
+    sudo cp ~/Documents/snippets.git/config/vim/vimrc_no_cscope /root/.vimrc
+    sudo cp -r ~/Documents/snippets.git/config/vim/ftplugin/ /root/.vim/
+* Add local Emacs config:
+    cp ~/Documents/snippets.git/config/emacs/emacs-to-deploy.el ~/.emacs
+    sudo cp ~/Documents/snippets.git/config/emacs/emacs-to-deploy.el /root/.emacs
+* Disable terminal bell and scrolling in terminal:
+    In Terminal application access Edit -> Preferences and untick the appropriate options.
+* Disable cursor blinking in terminal:
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \')/ cursor-blink-mode off
+* Set collation to show capitalized names first:
+   sudo update-locale LC_COLLATE=C
+   Reboot after configuration.
+* Configure Bash aliases:
+    cp ~/Documents/snippets.git/config/bash/bash_aliases_deploy_systemd ~/.bash_aliases
+    sudo cp ~/Documents/snippets.git/config/bash/bash_aliases_deploy_systemd /root/.bash_aliases
+* Trim Bash prompt when too large:
+    sudo vi /etc/bash.bashrc
+    Add "export PROMPT_DIRTRIM=3" at the end.
+* Install minimal CLI Debian packages:
+    ~/Documents/snippets.git/debian/cli-minimal-debian-install
+* Install minimal GUI Debian packages:
+    ~/Documents/snippets.git/debian/gui-minimal-debian-install
+* Install i386 C development environment:
+    sudo dpkg --add-architecture i386
+    sudo apt install gcc-multilib libc6:i386
+* Add tmux configuration:
+    cp ~/Documents/snippets.git/config/tmux/tmux_debian.conf ~/.tmux.conf
+    sudo cp ~/Documents/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
+* Load tmux plugins:
+    Run "tmux" and then press "Ctrl+v" and then "I".
+    Run "sudo tmux" and then press "Ctrl+v" and then "I".
+* Update password for root user, in case the student /etc/sudoers config is messed up. Set password "root" (no quotes):
+    sudo su
+    passwd
+* Disable DNS usage in SSH server:
+    sudo vim /etc/ssh/sshd_config
+    Uncomment the "UseDNS no" line.
+* Disable automated screen locking:
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+    gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
+    OR
+    Run dconf-editor and navigate to org/gnome/desktop/screensaver and check the appropriate two options.
+* Update apt-file cached data:
+    sudo apt update
+* Upgrade packages:
+    sudo apt update ; sudo apt upgrade ; sudo apt dist-upgrade
+* Clean package install:
+    sudo apt clean ; sudo apt autoclean ; sudo apt autoremove
+* Clone USO public repository:
+    git clone https://github.com/systems-cs-pub-ro/uso uso.git
+* Pin Terminal application to dock.
+    Start Terminal application (use Alt+Ctrl+t shortcut).
+    Right click on its icon on the dock and select "Add to Favorites.
+* Move dock to bottom of screen.
+    Click top-right corner. Choose Settings icon.
+    Dock -> Icon Size -> 24; Dock -> Position on screen -> Bottom
+* Use boot-cli command to boot into CLI mode (for "hacker mode" and reduced resource consumption). Use boot-gui command to boot back to GUI mode.
+* Clean command history as root:
+    sudo su
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
+* Clean command history as student:
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
