@@ -2,11 +2,12 @@
 * User is student with password student. User is sudo-enabled. May use "sudo su" to access the root account.
 * Install VirtualBox Guest Additions:
     https://www.techrepublic.com/article/how-to-install-virtualbox-guest-additions-on-a-gui-less-ubuntu-server-host/
-* Add second network interface (host-only) to VM to allow for SSH connections to/from host. VM needs to be turned off.
+* Add second network interface (Host-only Adapter) to VM to allow for SSH connections to/from host. VM needs to be turned off.
     Machine -> Settings -> Network -> Adapter 2 -> Enable Network Adapter -> Host-only Adapter (Name: vboxnet0)
     It may happen that the vboxnet0 virtual network adapter needs to be added. Do:
     VirtualBox -> Preferences -> Network, then use the buttons on the right to add a new interface.
 * Add third network interface (Internal Network) to VM for inter-VM network link. It will allow static IP configurations to be tested.
+    Machine -> Settings -> Network -> Adapter 3 -> Enable Network Adapter -> Internal Network (Name: usonet)
 * Install Git:
     sudo apt install git
 * Make utils/ folder in home directory:
