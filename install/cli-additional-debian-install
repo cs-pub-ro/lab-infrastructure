@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo apt -y install mailutils
+sudo apt -y install smbclient cifs-utils ldap-utils
+sudo apt -y install genisoimage
+sudo apt -y install inxi
+sudo apt -y install imagemagick
+sudo apt -y install emacs-nox org-mode emacs-goodies-el
