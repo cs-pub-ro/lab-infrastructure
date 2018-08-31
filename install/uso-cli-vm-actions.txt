@@ -1,0 +1,41 @@
+# File is to be copied on virtual machine in ~/vm-actions-log.txt.
+* User is student with password student. User is sudo-enabled. May use "sudo su" to access the root account.
+* Install VirtualBox Guest Additions:
+    https://www.techrepublic.com/article/how-to-install-virtualbox-guest-additions-on-a-gui-less-ubuntu-server-host/
+* Add second network interface (host-only) to VM to allow for SSH connections to/from host. VM needs to be turned off.
+    Machine -> Settings -> Network -> Adapter 2 -> Enable Network Adapter -> Host-only Adapter (Name: vboxnet0)
+    It may happen that the vboxnet0 virtual network adapter needs to be added. Do:
+    VirtualBox -> Preferences -> Network, then use the buttons on the right to add a new interface.
+* Add third network interface (Internal Network) to VM for inter-VM network link. It will allow static IP configurations to be tested.
+* Install Git:
+    sudo apt install git
+* Make utils/ folder in home directory:
+    make utils
+* Clone lab-infrastructure repository in utils/ folder:
+    cd utils/
+    git clone https://github.com/systems-cs-pub-ro/lab-infrastructure lab-infrastructure.git
+* Run USO CLI install script:
+    ~/utils/lab-infrastructure.git/install/installscript-uso-cli-only-vm
+* Script configures password "root" (no quotes) for root account. To use in case of problems with sudo and the student account.
+* Configure tmux plugins by running commands as instructed by install script:
+    Run "tmux" and then press "Ctrl+v" and then "I".
+    Run "sudo tmux" and then press "Ctrl+v" and then "I".
+* Test vim and emacs work properly by running and quitting them:
+    vim
+    emacs
+    sudo vim
+    sudo emacs
+* Check if DHCP works on 2nd network interface:
+    sudo dhclient enp0s8
+* Connect using SSH from host system to virtual machine:
+    ssh student@<IP_address_of_VM_on_interface_enp0s8>
+* Clean command history for root account as instructed by install script:
+    sudo su
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
+    exit
+* Clean command history for student account as instructed by install script:
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
