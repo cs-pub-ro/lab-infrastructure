@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Install and configure Git.
+sudo apt install git
+git config --global color.ui auto
+git config --global user.name 'Student USO VM User'
+git config --global user.email 'student@stud.acs.upb.ro'
+sudo git config --global color.ui auto
+sudo git config --global user.name 'Root USO VM User'
+sudo git config --global user.email 'student@stud.acs.upb.ro'
+
+# Clone Razvan's scripts and configs in utils/ folder.
+cd utils
+git clone https://github.com/razvand/snippets snippets.git
+git clone https://github.com/systems-cs-pub-ro/lab-infrastructure lab-infrastructure.git
+cd ..
+
+# Install and configure Vim.
+sudo apt install vim
+sudo update-alternatives --config editor (choose /usr/bin/vim.basic)
+sudo cp /usr/share/vim/vim*/vimrc_example.vim /etc/vim/vimrc
+mkdir -p ~/.vim/bkup
+cp ~/utils/snippets.git/config/vim/vimrc_no_cscope ~/.vimrc
+cp -r ~/utils/snippets.git/config/vim/ftplugin/ ~/.vim/
+sudo mkdir -p /root/.vim/bkup
+sudo cp ~/utils/snippets.git/config/vim/vimrc_no_cscope /root/.vimrc
+sudo cp -r ~/utils/snippets.git/config/vim/ftplugin/ /root/.vim/
+
+# Install and configure Emacs.
+sudo apt install emacs
+cp ~/utils/snippets.git/config/emacs/emacs-to-deploy.el ~/.emacs
+sudo cp ~/utils/snippets.git/config/emacs/emacs-to-deploy.el /root/.emacs
+
+# Disable cursor blinking in terminal.
+# http://www.jurta.org/en/prog/noblink#Linux_Console
+sudo sh -c '/bin/echo -ne "\033[?17;0;255c"' >> /etc/issue
+echo 0 > /sys/class/graphics/fbcon/cursor_blink
+for i in $(seq 1 8); do
+    TERM=linux setterm --foreground white --bold on -store > /dev/tty$i
+done
+
+# Set collation to show capitalized names first. Requires reboot.
+sudo update-locale LC_COLLATE=C
+
+# Configure Bash aliases.
+cp ~/utils/snippets.git/config/bash/bash_aliases_deploy ~/.bash_aliases
+sudo cp ~/utils/snippets.git/config/bash/bash_aliases_deploy /root/.bash_aliases
+
+# Trim Bash prompt when too large.
+echo "export PROMPT_DIRTRIM=3" | tee -a /etc/bash.bashrc > /dev/null
+
+# Install minimal CLI Debian packages.
+~/utils/lab-infrastructure.git/debian/cli-minimal-debian-install
+
+# Install i386 C development environment:
+~/utils/lab-infrastructure.git/debian/i386-dev-install
+
+# Install and configure tmux.
+sudo apt install tmux
+cp ~/utils/snippets.git/config/tmux/tmux_debian.conf ~/.tmux.conf
+sudo cp ~/utils/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
+
+# Update password for root user, in case the student /etc/sudoers config is messed up. Set password "root" (no quotes).
+echo "root:root" | sudo chpasswd
+
+# Disable DNS usage in SSH server:
+grep 'UseDNS' /etc/ssh/sshd_config > /dev/null
+if "$?" -ne 0; then
+    sed 's/^.*UseDNS$/UseDNS no/g'
+else
+    echo "UseDNS no" | sudo tee -a /etc/ssh/sshd_config > /dev/null
+fi
+
+# Update apt and apt-file cached data.
+sudo apt update
+
+# Upgrade packages:
+sudo apt upgrade ; sudo apt dist-upgrade
+
+# Clean package install:
+sudo apt clean ; sudo apt autoclean ; sudo apt autoremove
+
+# Clone USO public repository:
+git clone https://github.com/systems-cs-pub-ro/uso uso.git
+
+# Print actions to be done interactively.
+echo ; echo
+cat <<END
+* To configure tmux plugins, do the actions below:
+Run "tmux" and then press "Ctrl+v" and then "I".
+Run "sudo tmux" and then press "Ctrl+v" and then "I".
+
+* To clean up command history for the root account, run the commands below:
+sudo su
+history -c
+unset HISTFILE
+rm -f ~/.bash_history
+exit
+
+* To clean up command history for student accout, run the commands below:
+history -c
+unset HISTFILE
+rm -f ~/.bash_history
+END
