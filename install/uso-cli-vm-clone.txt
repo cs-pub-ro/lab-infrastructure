@@ -1,0 +1,28 @@
+* Create virtual machine clone from tom to jerry in VirtualBox:
+    Machine -> Clone
+    Reinitialize MAC addresses.
+    Full clone (new disk)
+* Change hostname:
+    https://linuxize.com/post/how-to-change-hostname-on-ubuntu-18-04/
+* Recreate OpenSSH server host keys:
+    https://www.cyberciti.biz/faq/howto-regenerate-openssh-host-keys/
+* Check usonet internal network connection by adding static IP addresses on interface enp0s9
+    tom:
+        sudo ip a a 1.1.1.1/24 dev enp0s9
+        sudo ip l s dev enp0s9 up
+    jerry:
+        sudo ip a a 1.1.1.2/24 dev enp0s9
+        sudo ip l s dev enp0s9 up
+        ping 1.1.1.1
+    tom:
+        pint 1.1.1.2
+* Clean command history for root account on both VMs.
+    sudo su
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
+    exit
+* Clean command history for student account on both VMs.
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
