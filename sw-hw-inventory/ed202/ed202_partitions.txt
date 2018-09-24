@@ -1,4 +1,5 @@
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sr0     11:0    1  1024M  0 rom  
 sda      8:0    0 279.5G  0 disk 
 ├─sda1   8:1    0   100M  0 part 
 ├─sda2   8:2    0  59.9G  0 part 
@@ -7,7 +8,6 @@ sda      8:0    0 279.5G  0 disk
 ├─sda5   8:5    0  58.6G  0 part 
 ├─sda6   8:6    0  58.6G  0 part /.systmp
 └─sda7   8:7    0    20G  0 part [SWAP]
-sr0     11:0    1  1024M  0 rom  
 
 Model: ATA WDC WD3000JD-98K (scsi)
 Disk /dev/sda: 300GB
