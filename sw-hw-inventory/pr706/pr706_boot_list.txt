@@ -1,17 +1,23 @@
 Ubuntu
+Ubuntu, with Linux 4.4.0-116-generic
+Ubuntu, with Linux 4.4.0-116-generic (recovery mode)
+Ubuntu, with Linux 4.4.0-97-generic
+Ubuntu, with Linux 4.4.0-97-generic (recovery mode)
 Ubuntu, with Linux 4.4.0-79-generic
 Ubuntu, with Linux 4.4.0-79-generic (recovery mode)
-Ubuntu, with Linux 4.4.0-64-generic
-Ubuntu, with Linux 4.4.0-64-generic (recovery mode)
 Ubuntu GNU/Linux, with Xen hypervisor
+Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-116-generic
+Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-116-generic (recovery mode)
+Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-97-generic
+Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-97-generic (recovery mode)
 Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-79-generic
 Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-79-generic (recovery mode)
-Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-64-generic
-Ubuntu GNU/Linux, with Xen 4.6-amd64 and Linux 4.4.0-64-generic (recovery mode)
+Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-116-generic
+Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-116-generic (recovery mode)
+Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-97-generic
+Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-97-generic (recovery mode)
 Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-79-generic
 Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-79-generic (recovery mode)
-Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-64-generic
-Ubuntu GNU/Linux, with Xen 4.6-amd64.efi and Linux 4.4.0-64-generic (recovery mode)
 Memory test (memtest86+)
 Memory test (memtest86+, serial console 115200)
 Windows 7 (loader) (on /dev/sda1)

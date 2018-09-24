@@ -1,29 +1,31 @@
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda      8:0    0 931,5G  0 disk 
+sda      8:0    0 931.5G  0 disk 
 ├─sda1   8:1    0   100M  0 part 
-├─sda2   8:2    0  99,9G  0 part 
+├─sda2   8:2    0  99.9G  0 part 
 ├─sda3   8:3    0     1K  0 part 
-├─sda5   8:5    0  95,4G  0 part /
-├─sda6   8:6    0  95,4G  0 part /.systmp
-├─sda7   8:7    0   7,6G  0 part [SWAP]
-├─sda8   8:8    0  78,7G  0 part /mnt/unfrozen
-└─sda9   8:9    0  88,7G  0 part 
+├─sda4   8:4    0 465.8G  0 part 
+├─sda5   8:5    0  95.4G  0 part /
+├─sda6   8:6    0  95.4G  0 part /.systmp
+├─sda7   8:7    0   7.6G  0 part [SWAP]
+├─sda8   8:8    0  78.7G  0 part /mnt/unfrozen
+└─sda9   8:9    0  88.7G  0 part 
 sr0     11:0    1  1024M  0 rom  
 
-Model: ATA WDC WD10EALX-759 (scsi)
+Model: ATA WDC WD10EZEX-75Z (scsi)
 Disk /dev/sda: 1000GB
-Sector size (logical/physical): 512B/512B
+Sector size (logical/physical): 512B/4096B
 Partition Table: msdos
 Disk Flags: 
 
-Number  Start   End    Size    Type      File system     Flags
- 1      1049kB  106MB  105MB   primary   ntfs            boot
- 2      106MB   107GB  107GB   primary   ntfs
- 3      107GB   500GB  393GB   extended
- 5      107GB   210GB  102GB   logical   ext4
- 6      210GB   312GB  102GB   logical   ext4
- 7      312GB   320GB  8195MB  logical   linux-swap(v1)
- 8      320GB   405GB  84,5GB  logical   ext4
- 9      405GB   500GB  95,3GB  logical   ntfs
+Number  Start   End     Size    Type      File system     Flags
+ 1      1049kB  106MB   105MB   primary   ntfs            boot
+ 2      106MB   107GB   107GB   primary   ntfs
+ 3      107GB   500GB   393GB   extended
+ 5      107GB   210GB   102GB   logical   ext4
+ 6      210GB   312GB   102GB   logical   ext4
+ 7      312GB   320GB   8195MB  logical   linux-swap(v1)
+ 8      320GB   405GB   84.5GB  logical   ext4
+ 9      405GB   500GB   95.3GB  logical   ntfs
+ 4      500GB   1000GB  500GB   primary   ntfs
 
 
