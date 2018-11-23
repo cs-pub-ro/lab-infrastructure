@@ -1,0 +1,178 @@
+#!/bin/bash
+
+STUDENT="student"
+PRF="\e[32m[installscript.sh]\e[0m"
+
+## external download links
+SASM_LINK="http://download.opensuse.org/repositories/home:/Dman95/xUbuntu_18.04/amd64/sasm_3.10.1_amd64.deb"
+BINARYNINJA_LINK="https://cdn.binary.ninja/installers/BinaryNinja-demo.zip"
+IDAFREE_LINK="https://out7.hex-rays.com/files/idafree70_linux.run"
+
+## packages to install
+CORE="gedit gnome-terminal firefox"
+LIBS_32BIT="libc6:i386 libc6-dev:i386 gcc-multilib g++-multilib"
+LIBS=""
+ESSENTIALS="git gcc gdb nasm ipython vim python-pip valgrind openssh-server"
+UTILS="gzip bzip2 zip unzip unrar p7zip lzma xz-utils"
+OTHERS="radare2 bless"
+
+PACKAGES="$CORE $LIBS $LIBS_32BIT $ESSENTIALS $UTILS $OTHERS"
+BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission* libreoffice-*"
+
+function remove_bloatware {
+	apt-get remove $BLOAT_PKGS
+	apt-get autoremove
+}
+
+function install_packages {
+	apt-get update
+	dpkg --add-architecture i386
+	apt-get install $PACKAGES
+}
+
+function install_sasm {
+	if [[ ! -z $(dpkg -l sasm | grep ii 2>/dev/null) ]]; then
+		echo -e "$PRF sasm is already installed"; return
+	fi
+	
+	wget -O /tmp/sasm.deb $SASM_LINK
+	dpkg -i /tmp/sasm.deb
+	rm /tmp/sasm.deb
+       	# install missing dependencies
+	apt-get -f -y install
+}
+
+function install_binaryninja {
+	if [[ ! -z $(ls /opt/binaryninja 2>/dev/null) ]]; then
+		echo -e "$PRF binaryninja is already installed"; return
+	fi
+
+	wget $BINARYNINJA_LINK -O /tmp/binaryninja.zip
+	unzip /tmp/binaryninja.zip -d /opt/
+	rm /tmp/binaryninja.zip
+
+	ln -s /opt/binaryninja/binaryninja /home/$STUDENT/bin/binaryninja
+	ln -s /opt/binaryninja/binaryninja /root/bin/binaryninja
+	
+    # get icon
+	wget https://binary.ninja/ico/apple-icon-180x180.png -O /opt/binaryninja/icon.png
+	
+	# inset entry in gnome shell
+	echo "[Desktop Entry]
+Type=Application
+Version=1
+Name=Binary Ninja (demo)
+Comment=Interactive Disassembler
+Icon=/opt/binaryninja/icon.png
+Exec=/opt/binaryninja/binaryninja
+Categories=Reversing;
+Terminal=false
+" > /usr/share/applications/BinaryNinja.desktop
+}
+
+function install_gdb_PEDA {
+	if [[ ! -z $(ls /home/$STUDENT/peda 2>/dev/null) ]]; then
+		echo -e "$PRF gdbPEDA is already installed"; return
+	fi
+
+	# setup for user student
+	git clone https://github.com/longld/peda.git /home/$STUDENT/peda
+	echo -ne "def peda\nsource ~/peda/peda.py\nend\n" > /home/$STUDENT/.gdbinit
+	chown -R $STUDENT:$STUDENT /home/$STUDENT
+
+	# same for root user. unsecure, but space efficient
+	ln -s /home/$STUDENT/peda /root/peda
+	ln -f /home/$STUDENT/.gdbinit /root/.gdbinit
+}
+
+function install_ida_free {
+	if [[ ! -z $(ls /opt/idafree 2>/dev/null) ]]; then
+		echo -e "$PRF ida FREE is already installed"; return
+	fi
+
+	wget $IDAFREE_LINK -O /tmp/ida.run
+	chmod +x /tmp/ida.run
+	
+	echo -e "\n\n$PRF you have to install this manually. Please set the install path to: /opt/idafree"
+	sleep 5
+
+	/tmp/ida.run
+	rm /tmp/ida.run
+	
+	# insert entry in gnome shell
+	echo "[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=IDA Free
+Comment=Interactive Disassembler Free
+Icon=/opt/idafree/appico64.png
+Exec=/opt/idafree/ida64
+Terminal=false
+Categories=Reversing
+" > /usr/share/applications/IDAFree.desktop
+}
+
+function install_pwn_tools {
+	if [[ ! -z $(python -c "from pwn import *; print 22" 2>/dev/null) ]]; then
+		echo -e "$PRF PWNtools is already installed"; return
+	fi
+
+	sudo apt-get update
+	apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential -y
+	pip install --upgrade pip
+	pip install --upgrade pwntools
+}
+
+function disable_ASLR {
+	if [[ ! -z $(cat /etc/sysctl.d/01-disable-aslr.conf 2>/dev/null) ]]; then
+		echo -e "$PRF ASLR is already disabled"; return
+	fi
+
+	echo -ne "kernel.randomize_va_space = 0\n" > /etc/sysctl.d/01-disable-aslr.conf
+}
+
+function setup_boot_aliases {
+	if [[ ! -z $(grep "boot-cli" /home/$STUDENT/.bash_aliases 2>/dev/null) ]]; then
+		echo -e "$PRF aliases are already set"; return
+	fi
+
+	echo -ne \
+	'alias boot-cli="systemctl set-default multi-user.target; echo 'Done! from now on, subsequent boots will enter into CLI mode'"\nalias boot-graphical="systemctl set-default graphical.target; echo 'Done! from now on, subsequent boots will enter into GUI mode'"\n' \
+	>> /home/$STUDENT/.bash_aliases
+	ln -f /home/$STUDENT/.bash_aliases /root/
+}
+
+function disable_animations {
+    gsettings set org.gnome.desktop.interface enable-animations false
+}
+
+function install_sysmonitor_dependencies {
+    sudo apt-get install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+}
+
+if [[ -z $(grep "Ubuntu 18.04" /etc/lsb-release) ]]; then
+	echo -e "$PRF Warning: this script was intended to be used on Ubuntu 18.04 LTS. Exiting."; exit
+fi
+
+if [[ $(id -u) -ne 0 ]]; then
+	echo -e "$PRF Please run as root"; exit
+fi
+
+#####################
+### install stuff ###
+
+remove_bloatware
+
+install_packages
+install_sasm
+install_binaryninja
+install_gdb_PEDA
+install_ida_free
+install_pwn_tools
+install_sysmonitor_dependencies
+
+#####################
+#### tweak stuff ####
+disable_ASLR
+setup_boot_aliases
+disable_animations
