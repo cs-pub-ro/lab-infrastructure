@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Add public SSH key.
+for i in $(seq 1 20); do
+    if test "$i" -eq 6 -o "$i" -eq 13; then
+        continue
+    fi
+    h=ctf-root-$(printf "%02g" "$i")
+    rh=ctf-$(printf "%02g" "$i")
+    scp update-hostname "$h":
+    ssh "$h" "./update-hostname \"$rh\""
+done

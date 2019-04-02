@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Add public SSH key.
+student_pass_file="p"
+for i in $(seq 7 20); do
+    h=ctf-student-$(printf "%02g" "$i")
+    p=$(sed -n "${i}p" "$student_pass_file")
+    echo "Adding public SSH key to student@$h"
+    ssh-copy-id "$h"
+    echo "Updating password on student@$h to $p"
+    ssh "$h" "echo student:\"$p\" | sudo chpasswd"
+    echo "Adding public SSH key to root"
+    ssh "$h" "sudo mkdir /root/.ssh/"
+    ssh "$h" "sudo cp /home/student/.ssh/authorized_keys /root/.ssh/authorized_keys"
+    echo "Check root works"
+    hr=ctf-root-$(printf "%02g" "$i")
+    ssh "$hr" "id"
+done

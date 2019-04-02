@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if test $# -ne 1; then 
+	echo "Usage: $0 <hostname>" 1>&2
+	exit 1
+fi
+
+h="$1"
+echo "$h" > /etc/hostname
+sed -i 's/^127\.0\.1\.1.*/127.0.1.1 '"${h}.grid.pub.ro ${h}"'/' /etc/hosts
+/etc/init.d/hostname.sh restart
+hostnamectl set-hostname "$h"
+
+echo "Hostname is $(hostname)"
