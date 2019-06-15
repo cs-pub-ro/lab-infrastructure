@@ -1,0 +1,9 @@
+Ubuntu
+Ubuntu, with Linux 4.15.0-34-generic
+Ubuntu, with Linux 4.15.0-34-generic (recovery mode)
+Ubuntu, with Linux 4.15.0-29-generic
+Ubuntu, with Linux 4.15.0-29-generic (recovery mode)
+Memory test (memtest86+)
+Memory test (memtest86+, serial console 115200)
+Windows 7 (on /dev/sda1)
+UDPCast
