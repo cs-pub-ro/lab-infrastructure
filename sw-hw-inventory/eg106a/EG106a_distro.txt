@@ -1,4 +1,0 @@
-Distributor ID:	Ubuntu
-Description:	Ubuntu 17.04
-Release:	17.04
-Codename:	zesty

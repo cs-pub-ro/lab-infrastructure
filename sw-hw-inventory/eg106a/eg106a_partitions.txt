@@ -1,15 +1,15 @@
 NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda      8:0    0 465,8G  0 disk 
+sda      8:0    0 465.8G  0 disk 
 ├─sda1   8:1    0   100M  0 part 
-├─sda2   8:2    0  99,9G  0 part 
+├─sda2   8:2    0  99.9G  0 part 
 ├─sda3   8:3    0     1K  0 part 
-├─sda5   8:5    0  95,4G  0 part /.systmp
-├─sda6   8:6    0  15,3G  0 part [SWAP]
-├─sda7   8:7    0 159,8G  0 part /mnt/unfrozen
-└─sda8   8:8    0  95,4G  0 part /
+├─sda5   8:5    0  95.4G  0 part /.systmp
+├─sda6   8:6    0  15.3G  0 part [SWAP]
+├─sda7   8:7    0 159.8G  0 part /mnt/unfrozen
+└─sda8   8:8    0  95.4G  0 part /
 sr0     11:0    1  1024M  0 rom  
 
-Model: ATA WDC WD5000AAKX-7 (scsi)
+Model: ATA ST3500413AS (scsi)
 Disk /dev/sda: 500GB
 Sector size (logical/physical): 512B/512B
 Partition Table: msdos
@@ -17,11 +17,11 @@ Disk Flags:
 
 Number  Start   End    Size    Type      File system     Flags
  1      1049kB  106MB  105MB   primary   ntfs            boot
- 2      106MB   107GB  107GB   primary   ntfs
+ 2      106MB   107GB  107GB   primary   ext4
  3      107GB   500GB  393GB   extended
  8      107GB   210GB  102GB   logical   ext4
  5      210GB   312GB  102GB   logical   ext4
- 6      312GB   329GB  16,4GB  logical   linux-swap(v1)
+ 6      312GB   329GB  16.4GB  logical   linux-swap(v1)
  7      329GB   500GB  172GB   logical   ext4
 
 
