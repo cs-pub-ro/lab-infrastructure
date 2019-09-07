@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Add public SSH key.
+student_pass_file="p"
+for i in $(seq 1 20); do
+    h=ctf-student-$(printf "%02g" "$i")
+    echo "Adding public SSH key to student@$h"
+    ssh-copy-id "$h"
+done
