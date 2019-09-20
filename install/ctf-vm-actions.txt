@@ -1,0 +1,25 @@
+* Configure authentication: update password for `student` user and add public SSH key to `student` and `root`.
+   ../remote-config/setup-remote-login
+* Update hostname to ctf-$id.
+    ../remote-config/setup-remote-hostname
+* Update /etc/resolv.conf configuration.
+    ../remote-config/setup-remote-resolv
+* Update /etc/apt/sources.list file.
+    ../remote-config/setup-remote-apt
+* Install git.
+    apt install git
+* Clone infrastructure repository
+    git clone https://github.com/systems-cs-pub-ro/lab-infrastructure lab-infrastructure.git
+* Install packages
+    cd lab-infrastructure-git/install/
+    ./cli-vm-packages-install  # TODO: Do not prompt for anything.
+* Do configurations.
+    ./cli-config
+* Configure tmux plugins by running commands as instructed by install script:
+    Run "tmux" and then press "Ctrl+v" and then "I".
+    Run "sudo tmux" and then press "Ctrl+v" and then "I".
+* Test vim and emacs work properly by running and quitting them:
+    vim
+    emacs
+    sudo vim
+    sudo emacs
