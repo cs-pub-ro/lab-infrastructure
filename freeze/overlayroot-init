@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if test -d /media/root-rw/overlay; then
+    rm -fr /media/root-rw/overlay/*
+fi
+
+exec /sbin/init
