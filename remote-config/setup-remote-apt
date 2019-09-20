@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for i in $(seq 1 20); do
+    scp debian-8-jessie.sources.list ctf-root-$(printf "%02g" "$i"):/etc/apt/sources.list
+done
