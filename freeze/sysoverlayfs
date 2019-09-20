@@ -188,7 +188,7 @@ rm -rf /.systmp/*
 # old version; kept out of nostalgy
 #for i in $(ls -al / | grep ^d | tr -s ' ' | cut -d ' ' -f 9 | grep -v ^\\.); do
 
-dir_list=$(find / -maxdepth 1 -maxdepth 1 -type d | grep -v '\(/tmp\|/cdrom\|/sys\|/proc\|/.systmp\|/dev\|/run\|/selinux\)')
+dir_list=$(find / -maxdepth 1 -mindepth 1 -type d | grep -v '\(/tmp\|/cdrom\|/sys\|/proc\|/.systmp\|/dev\|/run\|/selinux\)')
 
 for d in $dir_list; do
     subdir_list=$(find "$d" -maxdepth 1 -mindepth 1 -type d)
