@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for i in $(seq 1 20); do
+    scp resolv.conf ctf-root-$(printf "%02g" "$i"):/etc/resolv.conf
+done
