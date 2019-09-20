@@ -1,0 +1,97 @@
+* User is student with password student. User is sudo-enabled. May use "sudo su" to access the root account.
+* Install VirtualBox Guest Additions.
+* Add second network interface (host-only) to VM to allow for SSH connections to/from host. VM needs to be turned off.
+    Machine -> Settings -> Network -> Adapter 2 -> Enable Network Adapter -> Host-only Adapter (Name: vboxnet0)
+    It may happen that the vboxnet0 virtual network adapter needs to be added. Do:
+    VirtualBox -> Preferences -> Network, then use the buttons on the right to add a new interface.
+* Install and start openssh-server:
+    sudo dnf install -y openssh-server
+    sudo systemctl start sshd.service
+* Configure hostname:
+    sudo hostnamectl set-hostname uso
+    sudo vi /etc/hosts
+    Add following line to beginning of /etc/hosts file:
+        127.0.0.1   uso.labs.cs.pub.ro uso
+* Install and configure Git:
+    sudo dnf install -y git
+    git config --global color.ui auto
+    git config --global user.name 'Student USO VM User'
+    git config --global user.email 'student@stud.acs.upb.ro'
+    sudo git config --global color.ui auto
+    sudo git config --global user.name 'Root USO VM User'
+    sudo git config --global user.email 'student@stud.acs.upb.ro'
+* Clone Razvan's scripts and configs in Documents folder:
+    git clone https://github.com/razvand/snippets Documents/snippets.git
+* Install editors:
+    sudo dnf install -y vim emacs
+* Add additional Vim configuration locally:
+    mkdir -p ~/.vim/bkup
+    cp ~/Documents/snippets.git/config/vim/vimrc_no_cscope ~/.vimrc
+    cp -r ~/Documents/snippets.git/config/vim/ftplugin/ ~/.vim/
+    sudo mkdir -p /root/.vim/bkup
+    sudo cp ~/Documents/snippets.git/config/vim/vimrc_no_cscope /root/.vimrc
+    sudo cp -r ~/Documents/snippets.git/config/vim/ftplugin/ /root/.vim/
+* Add local Emacs config:
+    cp ~/Documents/snippets.git/config/emacs/emacs-to-deploy.el ~/.emacs
+    sudo cp ~/Documents/snippets.git/config/emacs/emacs-to-deploy.el /root/.emacs
+* Disable terminal bell, cursor blinking and scrolling in terminal:
+    In Terminal application access Edit -> Preferences and untick the appropriate options.
+* Set collation and other locale environment variabiles:
+    vim ~/.bashrc
+    Add following lines at the end of the ~/.bashrc file:
+        export LC_CTYPE="en_US.UTF-8"
+        export LANG="en_US.UTF-8"
+        export LC_COLLATE="C"
+* Configure Bash aliases:
+    Add lines below to ~/.bashrc for student and for root:
+        # User specific aliases and functions
+        if [ -f ~/.bash_aliases ]; then
+                . ~/.bash_aliases
+        fi
+    cp ~/Documents/snippets.git/config/bash/bash_aliases_deploy_systemd ~/.bash_aliases
+    sudo cp ~/Documents/snippets.git/config/bash/bash_aliases_deploy_systemd /root/.bash_aliases
+* Configure prompt:
+    sudo vi /etc/profile.d/prompt.sh (create script)
+    Add following lines:
+        # /etc/profile.d/prompt.sh - configure prompt
+        PS1="[\u@\h:\w]\\$ "
+        PROMPT_DIRTRIM=3
+* Install minimal CLI Debian packages:
+    ~/Documents/snippets.git/fedora/cli-minimal-fedora-install
+    ~/Documents/snippets.git/fedora/cli-extra-fedora-install
+* Install minimal GUI Debian packages:
+    ~/Documents/snippets.git/fedora/gui-minimal-fedora-install
+* Install i386 C development environment:
+    sudo dnf install -y libgcc.i686 glibc-*.i686 libstdc++-*.i686
+* Add tmux configuration:
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    sudo git clone https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
+    cp ~/Documents/snippets.git/config/tmux/tmux_debian.conf ~/.tmux.conf
+    sudo cp ~/Documents/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
+* Load tmux plugins:
+    Run "tmux" and then press "Ctrl+v" and then "I".
+    Run "sudo tmux" and then press "Ctrl+v" and then "I".
+* Update password for root user, in case the student /etc/sudoers config is messed up. Set password "root" (no quotes):
+    sudo su
+    passwd
+* Disable DNS usage in SSH server:
+    sudo vim /etc/ssh/sshd_config
+    Uncomment the "UseDNS no" line.
+    sudo systemctl restart sshd.service
+* Disable automated screen locking:
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+* Upgrade packages:
+    sudo dnf upgrade
+* Clone USO public repository:
+    git clone https://github.com/systems-cs-pub-ro/uso uso.git
+* Use GUI (Settings) to configure Romanian keyboard as the main keyboard.
+* Use boot-cli command to boot into CLI mode (for "hacker mode" and reduced resource consumption). Use boot-gui command to boot back to GUI mode.
+* Clean command history as root:
+    sudo su
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
+* Clean command history as student:
+    history -c
+    unset HISTFILE
+    rm -f ~/.bash_history
