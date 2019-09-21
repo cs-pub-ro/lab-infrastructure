@@ -1,0 +1,12 @@
+The script install-apt-packages.bash takes as arguments packages files,
+containing the apt packages it should install.
+
+".packages" files format:
+ - each line contains the name of a single package that should be passed to apt
+ - blank lines are allowed
+ - lines beginning with a "#" are considered comments and are ignored
+ - other ".packages" file can be included on a line beginning with "+"* (no
+spaces after it). E.g. if "a.packages" wants to include "b.packages" it should
+contain a line "+b.packages"
+
+* I assumed an apt package's name can't start with "*"; if it can, tough luck...
