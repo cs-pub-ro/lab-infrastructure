@@ -8,6 +8,8 @@ install_apt_package() {
 # Update apt-file cache.
 sudo apt update
 
+sudo dpkg --add-architecture i386
+
 for package_file; do
 	while read package; do
 		# allow comments and empty lines in packages file
