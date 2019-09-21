@@ -1,28 +1,33 @@
+# utils
 coreutils
 bsdmainutils
-less
-htop
-zip
-unzip
-vim-nox
-git
-tig
-subversion
-lsof
-build-essential
-gdb
-cscope
-exuberant-ctags
-strace
-ltrace
-valgrind
-flex
-bison
 gawk
-bash
-bash-completion
+apt-file
+tree
+less
+pwgen
+finger
+build-essential
+perl
+moreutils
+pciutils
+usbutils
+lshw
+hwinfo
+dmidecode
 tcl
 expect
+iotop
+sysstat
+parted
+
+# network_utils
+tcpdump
+nmap
+traceroute
+iperf
+net-tools
+ethtool
 netcat
 telnet
 lynx
@@ -30,39 +35,54 @@ curl
 ncftp
 host
 dnsutils
-openssh-server
-finger
-pciutils
-usbutils
-lshw
-hwinfo
-dmidecode
-mc
-tree
-apt-file
-tcpdump
-nmap
-traceroute
-iperf
+
+# vcs_utils
+htop
+vim-nox
+git
+tig
+subversion
+lsof
+
+# python
+python2.7
+python3
+
+# docs
 manpages-posix
 manpages-posix-dev
 make-doc
 glibc-doc-reference
-pwgen
+
+# archive_utils
+zip
+unzip
+unrar
+lzma
+xz-utils
+p7zip-full
+
+# terminal
 screen
 tmux
 tmux-plugin-manager
-ethtool
-net-tools
-iotop
-sysstat
-unrar
-p7zip
-lzma
-xz-utils
-moreutils
+
+# ssh
+openssh-server
+
+# shell
+bash
+bash-completion
+
+# analysis
+gdb
+ltrace
+strace
+valgrind
 hexedit
-python2.7
-python3
-perl
-parted
+
+# parsing
+flex
+bison
+cscope
+exuberant-ctags

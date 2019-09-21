@@ -1,99 +1,10 @@
-# utils
-coreutils
-bsdmainutils
-gawk
-apt-file
-tree
-less
-pwgen
-finger 
-build-essential 
-perl
-moreutils
-pciutils
-usbutils
-lshw
-hwinfo
-dmidecode
-tcl
-expect
-iotop
-sysstat
-parted
-
-# network_utils
-tcpdump
-nmap 
-traceroute 
-iperf 
-net-tools 
-inetutils-tools
-ethtool
-netcat
-telnet
-lynx
-curl
-wget
-ncftp
-host
-dnsutils
-
-# vcs_utils
-git
-less
-htop
-vim-nox
-git
-tig
-subversion
-lsof
-mercurial
-
-# python
-python2.7
-python3
-
-# docs
-manpages-posix
-manpages-posix-dev
-make-doc
-glibc-doc-reference
-
-# archive_utils
-zip
-unzip
-unrar
-p7zip
-lzma
-xz-utils
-p7zip-full
-
-# terminal
-screen
-tmux
-tmux-plugin-manager
-
-# ssh
-openssh-server
-
-# shell
-bash
-bash-completion
-
-# analysis
-gdb
-ltrace
-strace
-valgrind
-hexedit
-xxd
-objdump
+# minimal packages
++deb-minimal.packages
 
 # clibs
 +i386-dev.packages
 
-# parsing
-flex
-bison
-cscope
-exuberant-ctags
+inetutils-tools
+objdump
+wget
+xxd
