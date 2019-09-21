@@ -16,3 +16,5 @@ if [[ -z $(grep "$TARGET_DIR" ~/.bashrc) ]]; then
 	echo 'export PATH=$PATH'":$TARGET_DIR/bin" >> ~/.bashrc
 	source ~/.bashrc
 fi
+
+sudo apt-get install qemu
