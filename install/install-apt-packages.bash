@@ -23,7 +23,8 @@ install_packages_file() {
 	done < "$packages_file"
 }
 
-# Update apt-file cache.
+sudo apt clean
+sudo apt autoclean
 sudo apt update
 
 sudo dpkg --add-architecture i386
@@ -31,3 +32,7 @@ sudo dpkg --add-architecture i386
 for packages_file; do
 	install_packages_file "$packages_file"
 done
+
+sudo apt clean
+sudo apt autoclean
+sudo apt-file update
