@@ -1,0 +1,26 @@
+avahi-daemon
+default-jdk
+dia
+dlocate
+dtach
+elfutils
+emacs
+emacs-goodies-el
+inkscape
+inxi
+ldap-utils
+linux-tools-common
+mailutils
+man-db
+manpages-dev
+mercurial
+nasm
+nmap
+pydf
+radare2
+sed
+texlive-latex3
+wget
+
+# multilibs
++i386-dev.packages

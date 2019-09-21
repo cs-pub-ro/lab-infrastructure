@@ -8,28 +8,22 @@ less
 pwgen
 finger
 build-essential
-perl
-moreutils
 pciutils
 usbutils
 lshw
 hwinfo
 dmidecode
-tcl
 expect
 iotop
 sysstat
-parted
 
 # network_utils
 tcpdump
 nmap
-traceroute
 iperf
 net-tools
 ethtool
 netcat
-telnet
 lynx
 curl
 ncftp
@@ -38,9 +32,6 @@ dnsutils
 
 # vcs_utils
 htop
-vim-nox
-git
-tig
 subversion
 lsof
 
@@ -51,12 +42,12 @@ python3
 # docs
 manpages-posix
 manpages-posix-dev
-make-doc
-glibc-doc-reference
 
 # archive_utils
 zip
 unzip
+gzip
+bzip2
 unrar
 lzma
 xz-utils
@@ -65,7 +56,6 @@ p7zip-full
 # terminal
 screen
 tmux
-tmux-plugin-manager
 
 # ssh
 openssh-server
@@ -85,4 +75,8 @@ hexedit
 flex
 bison
 cscope
+
+# compilers
+g++
+gcc
 exuberant-ctags

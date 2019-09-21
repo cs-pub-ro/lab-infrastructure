@@ -8,3 +8,16 @@ inetutils-tools
 objdump
 wget
 xxd
+exuberant-ctags
+git
+glibc-doc-reference
+make-doc
+moreutils
+parted
+perl
+tcl
+telnet
+tig
+tmux-plugin-manager
+traceroute
+
