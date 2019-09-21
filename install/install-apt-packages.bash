@@ -33,6 +33,7 @@ for packages_file; do
 	install_packages_file "$packages_file"
 done
 
+sudo apt -y upgrade
 sudo apt clean
 sudo apt autoclean
 sudo apt-file update
