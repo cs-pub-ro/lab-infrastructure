@@ -1,0 +1,6 @@
+libc6:i386
+libc6-dev:i386
+libstdc++6:i386
+libstdc++6-dev:i386
+gcc-multilib
+g++-multilib

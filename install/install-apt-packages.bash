@@ -5,18 +5,29 @@ install_apt_package() {
 	sudo apt -y install "$1"
 }
 
+install_packages_file() {
+	packages_file="$1"
+	while read line; do
+		# allow comments and empty lines in packages file
+		if [[ "$line" =~ "#"  || -z "$line" ]]; then
+			continue
+		fi
+
+		# allow inclusion of other packages files
+		if [[ "$line" =~ ^\+ ]]; then
+			install_packages_file "${line:1}"
+			continue
+		fi
+
+		install_apt_package "$line"
+	done < "$packages_file"
+}
+
 # Update apt-file cache.
 sudo apt update
 
 sudo dpkg --add-architecture i386
 
-for package_file; do
-	while read package; do
-		# allow comments and empty lines in packages file
-		if [[ "$package" =~ "#"  || -z "$package" ]]; then
-			continue
-		fi
-
-		install_apt_package "$package"
-	done < "$package_file"
+for packages_file; do
+	install_packages_file "$packages_file"
 done
