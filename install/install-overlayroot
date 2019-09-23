@@ -1,20 +1,16 @@
 #!/bin/bash
 
+# BACKUP_PARTITION=""
+
+if test -z "$BACKUP_PARTITION"; then
+    echo "Configure BACKUP_PARTITION variable." 1>&2
+    exit 1
+fi
+
 # Install overlayroot.
 sudo apt install overlayroot
 
-# Get root partition.
-part=$(readlink -f /dev/block/$(mountpoint -d /))
-
 # Update overlay root config.
-sudo sed -i 's/^overlayroot=.*$/overlayroot='"$part"'/' /etc/overlayroot.conf
-
-# Update GRUB and init.
-sudo cp ../freeze/overalyroot-init /sbin/
-sudo cat /etc/default/grub | grep '^GRUB_CMDLINE_LINUX_DEFAULT' | grep 'init=/sbin/overlayroot\-init' > /dev/null
-if test $? -eq 0; then
-    echo "overlayroot init script already added" 1>&2
-    exit 1
-fi
-sudo sed -i 's/^\(GRUB_CMDLINE_LINUX_DEFAULT=.*\)[ \t]*"$/\1 init=/sbin/overlayroot-init"/' /etc/default/grub
-sudo update-grub
+sudo tee "/etc/overlayroot.local.conf" << END
+overlayroot="crypt:dev=$BACKUP_PARTITION"
+END
