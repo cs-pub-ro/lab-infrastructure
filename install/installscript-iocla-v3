@@ -20,14 +20,14 @@ PACKAGES="$CORE $LIBS $LIBS_32BIT $ESSENTIALS $UTILS $OTHERS"
 BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission* libreoffice-*"
 
 function remove_bloatware {
-	apt-get remove $BLOAT_PKGS
-	apt-get autoremove
+	apt-get -y remove $BLOAT_PKGS
+	apt-get -y autoremove
 }
 
 function install_packages {
 	apt-get update
 	dpkg --add-architecture i386
-	apt-get install $PACKAGES
+	apt-get install -y $PACKAGES
 }
 
 function install_sasm {
@@ -96,7 +96,7 @@ function install_ida_free {
 	echo -e "\n\n$PRF you have to install this manually. Please set the install path to: /opt/idafree"
 	sleep 5
 
-	/tmp/ida.run
+	/tmp/ida.run --mode unattended
 	rm /tmp/ida.run
 	
 	# insert entry in gnome shell
@@ -118,7 +118,7 @@ function install_pwn_tools {
 	fi
 
 	sudo apt-get update
-	apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential -y
+	apt-get install -y python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential -y
 	pip install --upgrade pip
 	pip install --upgrade pwntools
 }
@@ -147,12 +147,12 @@ function disable_animations {
 }
 
 function install_sysmonitor_dependencies {
-    sudo apt-get install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+    sudo apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
 }
 
-if [[ -z $(grep "Ubuntu 18.04" /etc/lsb-release) ]]; then
-	echo -e "$PRF Warning: this script was intended to be used on Ubuntu 18.04 LTS. Exiting."; exit
-fi
+# if [[ -z $(grep "Ubuntu 18.04" /etc/lsb-release) ]]; then
+# 	echo -e "$PRF Warning: this script was intended to be used on Ubuntu 18.04 LTS. Exiting."; exit
+# fi
 
 if [[ $(id -u) -ne 0 ]]; then
 	echo -e "$PRF Please run as root"; exit
