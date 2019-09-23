@@ -1,0 +1,6 @@
+#!/bin/bash
+
+history -c
+unset HISTFILE
+rm -f ~/.bash_history
+sudo su -c "unset HISTFILE; history -c; rm -f /root/.bash_history"
