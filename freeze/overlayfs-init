@@ -9,7 +9,11 @@
 # depending on the kernel version, the partitions are named for example
 # hda6 or sda6
 #UNFROZEN_DISK_MATCH=/dev/[sh]da3
-UNFROZEN_DISK=/dev/sda5
+#UNFROZEN_DISK=/dev/sda6
+if test -z "$UNFROZEN_DISK"; then
+    echo "UNFROZEN_DISK variable undefined." 1>&2
+    exit 1
+fi
 
 # Uncomment the line below to prevent the script from running.
 # Doing this will leave the system unfrozen.
