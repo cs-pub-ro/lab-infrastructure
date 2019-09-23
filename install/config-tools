@@ -11,9 +11,9 @@ sudo apt install -y git
 git config --global color.ui auto
 git config --global user.name 'Student USO VM User'
 git config --global user.email 'student@stud.acs.upb.ro'
-sudo git config --global color.ui auto
-sudo git config --global user.name 'Root USO VM User'
-sudo git config --global user.email 'student@stud.acs.upb.ro'
+sudo su -c 'git config --global color.ui auto'
+sudo su -c 'git config --global user.name "Root USO VM User"'
+sudo su -c 'git config --global user.email "student@stud.acs.upb.ro"'
 
 # Clone Razvan's scripts and configs in util/ folder.
 #mkdir -p util
