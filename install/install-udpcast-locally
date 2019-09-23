@@ -2,23 +2,38 @@
 
 echo -n "Get UDPCast ISO image ... "
 wget http://www.udpcast.linux.lu/20120424/udpcd.iso -o /dev/null
-echo
+if test $? -ne 0; then
+    echo "FAIL"
+    exit 1
+else
+    echo "OK"
+fi
 
 if test ! -d mnt-udpcast; then
     mkdir mnt-udpcast
 fi
 
 echo -n "Mount ISO image from udpcd.iso to mnt-udpcast ... "
-sudo mount -o loop udpcd.iso mnt-udpcast
-echo
+sudo mount -o loop udpcd.iso mnt-udpcast > /dev/null 2>&1
+if test $? -ne 0; then
+    echo "FAIL"
+    exit 1
+else
+    echo "OK"
+fi
 
 echo -n "Create booting files ... "
-sudo mkdir /boot/udpcast-manual/
-sudo cp mnt-udpcast/{linux,initrd} /boot/udpcast-manual/
-echo
+sudo mkdir /boot/udpcast-manual/ > /dev/null 2>&1
+sudo cp mnt-udpcast/{linux,initrd} /boot/udpcast-manual/ > /dev/null 2>&1
+if test $? -ne 0; then
+    echo "FAIL"
+    exit 1
+else
+    echo "OK"
+fi
 
 echo -n "Add GRUB entries ... "
-grep 'UDPCast' /etc/grub.d/40_custom > /dev/null
+grep 'UDPCast' /etc/grub.d/40_custom > /dev/null 2>&1
 if test ! $? -eq 0; then
     part=$(readlink -f /dev/block/$(mountpoint -d /))
     uuid=$(/sbin/blkid -o value -s UUID "$part")
@@ -31,7 +46,8 @@ if test ! $? -eq 0; then
     num=$(sed 's|/dev/sd[a-z]\([0-9]\+\)|\1|' <<< "$part")
     num=$(($num - 1))
     grub_part="$grub_part$num"')'
-    sudo tee -a /etc/grub.d/40_custom <<END
+    sudo tee -a /etc/grub.d/40_custom > /dev/null 2>&1 <<END
+
 menuentry 'UDPCast (manual)' {
         insmod part_msdos
         insmod ext2
@@ -41,15 +57,32 @@ menuentry 'UDPCast (manual)' {
         initrd  /boot/udpcast-manual/initrd
 }
 END
+    if test $? -ne 0; then
+        echo "FAIL"
+        exit 1
+    else
+        echo "OK"
+    fi
+else
+    echo "OK"
 fi
-echo
 
 echo -n "Update GRUB ..."
-sudo update-grub
-echo
+sudo update-grub > /dev/null 2>&1
+if test $? -ne 0; then
+    echo "FAIL"
+    exit 1
+else
+    echo "OK"
+fi
 
 echo -n "Clean up ... "
-sudo umount mnt-udpcast
+sudo umount mnt-udpcast > /dev/null 2>&1
+if test $? -ne 0; then
+    echo "FAIL"
+    exit 1
+else
+    echo "OK"
+fi
 rmdir mnt-udpcast
 rm udpcd.iso
-echo
