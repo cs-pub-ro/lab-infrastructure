@@ -9,7 +9,7 @@ BINARYNINJA_LINK="https://cdn.binary.ninja/installers/BinaryNinja-demo.zip"
 IDAFREE_LINK="https://out7.hex-rays.com/files/idafree70_linux.run"
 
 ## packages to install
-BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission* libreoffice-*"
+BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission*"
 
 function remove_bloatware {
 	apt-get -y remove $BLOAT_PKGS
