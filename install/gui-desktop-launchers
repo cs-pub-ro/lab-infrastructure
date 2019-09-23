@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Create desktop launcher for Sublime.
+# TODO
+
+# Create desktop launcher for BinaryNinja.
+if test -f /opt/binaryninja/binaryninja; then
+    sudo tee /usr/share/applications/BinaryNinja.desktop > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Binary Ninja (demo)
+Comment=Interactive Disassembler
+Icon=/opt/binaryninja/icon.png
+Exec=/opt/binaryninja/binaryninja
+Categories=Reversing;
+Terminal=false
+END
+    cp /usr/share/applications/BinaryNinja.desktop /home/student/Desktop/BinaryNinja.desktop
+    chmod a+x $_
+fi
+
+# Create desktop launcher for VirtualBox.
+which virtualbox > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/virtualbox.desktop /home/student/Desktop/VirtualBox.desktop
+    chmod a+x $_
+fi
+
+# Create desktop launcher for Emacs.
+which emacs > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/emacs25.desktop /home/student/Desktop/Emacs.desktop
+    chmod a+x $_
+fi
+
+# Create desktop launcher for VMware
+# TODO
+
+# Create desktop shortcut for Eclipse.
+which eclipse > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/eclipse.desktop /home/student/Desktop/Eclipse.desktop
+    chmod a+x $_
+fi
+
+# Create desktop shortcut for SASM.
+which sasm > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/sasm.desktop /home/student/Desktop/SASM.desktop
+    chmod a+x $_
+fi
+
+# Create desktop shortcut for IDA.
+if test -f /opt/idafree/ida64; then
+    sudo tee /usr/share/applications/IDAFree.dekstop > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=IDA Free
+Comment=Interactive Disassembler Free
+Icon=/opt/idafree/appico64.png
+Exec=/opt/idafree/ida64
+Terminal=false
+Categories=Reversing
+END
+    tee /home/student/Desktop/IDAFree.dekstop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=IDA Free
+Comment=Interactive Disassembler Free
+Icon=/opt/idafree/appico64.png
+Exec=/opt/idafree/ida64
+Terminal=false
+Categories=Reversing
+END
+    chmod a+x /home/student/Desktop/IDAFree.desktop
+fi
+
+# Create desktop shortcut for GNOME Terminal.
+which gnome-terminal > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/gnome-terminal.desktop /home/student/Desktop/'GNOME Terminal.desktop'
+    chmod a+x $_
+fi
+
+# Create desktop shortcut for LXTerminal
+which lxterminal > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/lxterminal.desktop /home/student/Desktop/LXTerminal.desktop
+    chmod a+x $_
+fi
+
+# Create desktop shortcut for PacketTracer.
+
+# Create desktop shortcut for Firefox.
+which firefox > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/firefox.desktop /home/student/Desktop/Firefox.desktop
+    chmod a+x $_
+fi
+
+# Create desktop shortcut for Chromium.
+which chromium-browser > /dev/null 2>&1
+if test $? -eq 0; then
+    cp /usr/share/applications/chromium-browser.desktop /home/student/Desktop/Chromium.desktop
+    chmod a+x $_
+fi
