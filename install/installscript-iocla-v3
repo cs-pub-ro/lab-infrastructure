@@ -9,14 +9,6 @@ BINARYNINJA_LINK="https://cdn.binary.ninja/installers/BinaryNinja-demo.zip"
 IDAFREE_LINK="https://out7.hex-rays.com/files/idafree70_linux.run"
 
 ## packages to install
-CORE="gedit gnome-terminal firefox"
-LIBS_32BIT="libc6:i386 libc6-dev:i386 gcc-multilib g++-multilib"
-LIBS=""
-ESSENTIALS="git gcc gdb nasm ipython vim python-pip valgrind openssh-server"
-UTILS="gzip bzip2 zip unzip unrar p7zip lzma xz-utils"
-OTHERS="radare2 bless"
-
-PACKAGES="$CORE $LIBS $LIBS_32BIT $ESSENTIALS $UTILS $OTHERS"
 BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission* libreoffice-*"
 
 function remove_bloatware {
@@ -25,9 +17,7 @@ function remove_bloatware {
 }
 
 function install_packages {
-	apt-get update
-	dpkg --add-architecture i386
-	apt-get install -y $PACKAGES
+	./install-apt-packages iocla.packages
 }
 
 function install_sasm {
@@ -38,7 +28,7 @@ function install_sasm {
 	wget -O /tmp/sasm.deb $SASM_LINK
 	dpkg -i /tmp/sasm.deb
 	rm /tmp/sasm.deb
-       	# install missing dependencies
+	# install missing dependencies
 	apt-get -f -y install
 }
 
@@ -147,7 +137,11 @@ function disable_animations {
 }
 
 function install_sysmonitor_dependencies {
-    sudo apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+	apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+	if [ $? -ne 0 ]; then
+		apt-get -f -y install
+		apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+	fi
 }
 
 # if [[ -z $(grep "Ubuntu 18.04" /etc/lsb-release) ]]; then
