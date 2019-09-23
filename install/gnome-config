@@ -1,0 +1,199 @@
+#!/bin/bash
+
+sudo apt-get -y install --no-install-recommends gnome-panel
+sudo apt-get -y install gnome-tweak-tool
+
+# Create desktop launcher for Sublime.
+# TODO
+
+# Create desktop launcher for BinaryNinja.
+if test -f /opt/binaryninja/binaryninja; then
+    sudo tee /usr/share/applications/BinaryNinja.desktop > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Binary Ninja (demo)
+Comment=Interactive Disassembler
+Icon=/opt/binaryninja/icon.png
+Exec=/opt/binaryninja/binaryninja
+Categories=Reversing;
+Terminal=false
+END
+    tee /home/student/Desktop/BinaryNinja.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Binary Ninja (demo)
+Comment=Interactive Disassembler
+Icon=/opt/binaryninja/icon.png
+Exec=/opt/binaryninja/binaryninja
+Categories=Reversing;
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/BinaryNinja.desktop
+fi
+
+# Create desktop launcher for VirtualBox.
+which virtualbox > /dev/null
+if test $? -eq 0; then
+    path=$(which virtualbox)
+    tee /home/student/Desktop/VirtualBox.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=VirtualBox
+Comment=VirtualBox
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/VirtualBox.desktop
+fi
+
+# Create desktop launcher for Emacs.
+which emacs > /dev/null
+if test $? -eq 0; then
+    path=$(which emacs)
+    tee /home/student/Desktop/Emacs.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Emacs
+Comment=Emacs
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/Emacs.desktop
+fi
+
+# Create desktop launcher for VMware
+# TODO
+
+# Create desktop shortcut for Eclipse.
+which eclipse > /dev/null
+if test $? -eq 0; then
+    path=$(which eclipse)
+    tee /home/student/Desktop/Eclipse.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Eclipse
+Comment=Eclipse
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/Eclipse.desktop
+fi
+
+# Create desktop shortcut for SASM.
+which sasm > /dev/null
+if test $? -eq 0; then
+    path=$(which sasm)
+    tee /home/student/Desktop/SASM.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Emacs
+Comment=Emacs
+Icon=/usr/share/sasm/sasm.png
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/SASM.desktop
+fi
+
+# Create desktop shortcut for IDA.
+if test -f /opt/idafree/ida64; then
+    sudo tee /usr/share/applications/IDAFree.dekstop > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=IDA Free
+Comment=Interactive Disassembler Free
+Icon=/opt/idafree/appico64.png
+Exec=/opt/idafree/ida64
+Terminal=false
+Categories=Reversing
+END
+    tee /home/student/Desktop/IDAFree.dekstop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=0.9.4
+Name=IDA Free
+Comment=Interactive Disassembler Free
+Icon=/opt/idafree/appico64.png
+Exec=/opt/idafree/ida64
+Terminal=false
+Categories=Reversing
+END
+    chmod a+x /home/student/Desktop/IDAFree.desktop
+fi
+
+# Create desktop shortcut for GNOME Terminal.
+which gnome-terminal > /dev/null
+if test $? -eq 0; then
+    path=$(which gnome-terminal)
+    tee /home/student/Desktop/Terminal.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=GNOME Terminal
+Comment=GNOME Terminal
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/Terminal.desktop
+fi
+
+# Create desktop shortcut for PacketTracer.
+
+# Create desktop shortcut for Firefox.
+which firefox > /dev/null
+if test $? -eq 0; then
+    path=$(which firefox)
+    tee /home/student/Desktop/Firefox.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Firefox
+Comment=Firefox
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/Terminal.desktop
+fi
+
+# Create desktop shortcut for Chromium.
+which chromium-browser > /dev/null
+if test $? -eq 0; then
+    path=$(which chromium-browser)
+    tee /home/student/Desktop/Chromium.desktop > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Chromium
+Comment=Chromium
+Icon=TODO
+Exec=$path
+Terminal=false
+END
+    chmod a+x /home/student/Desktop/Chromium.desktop
+fi
+
+gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.nautilus.desktop volumes-visible false
+gsettings set org.gnome.software download-updates false

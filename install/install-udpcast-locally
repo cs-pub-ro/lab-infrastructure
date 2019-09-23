@@ -1,0 +1,55 @@
+#!/bin/bash
+
+echo -n "Get UDPCast ISO image ... "
+wget http://www.udpcast.linux.lu/20120424/udpcd.iso -o /dev/null
+echo
+
+if test ! -d mnt-udpcast; then
+    mkdir mnt-udpcast
+fi
+
+echo -n "Mount ISO image from udpcd.iso to mnt-udpcast ... "
+sudo mount -o loop udpcd.iso mnt-udpcast
+echo
+
+echo -n "Create booting files ... "
+sudo mkdir /boot/udpcast-manual/
+sudo cp mnt-udpcast/{linux,initrd} /boot/udpcast-manual/
+echo
+
+echo -n "Add GRUB entries ... "
+grep 'UDPCast' /etc/grub.d/40_custom > /dev/null
+if test ! $? -eq 0; then
+    part=$(readlink -f /dev/block/$(mountpoint -d /))
+    uuid=$(/sbin/blkid -o value -s UUID "$part")
+    grep "/dev/sda" <<< "$part" > /dev/null
+    if test $? -eq 0; then
+        grub_part='(hd0,msdos'
+    else
+        grub_part='(hd1,msdos'
+    fi
+    num=$(sed 's|/dev/sd[a-z]\([0-9]\+\)|\1|' <<< "$part")
+    num=$(($num - 1))
+    grub_part="$grub_part$num"')'
+    sudo tee -a /etc/grub.d/40_custom <<END
+menuentry 'UDPCast (manual)' {
+        insmod part_msdos
+        insmod ext2
+        set root='(hd0,msdos5)'
+        search --no-floppy --fs-uuid --set=root $uuid
+        linux   /boot/udpcast-manual/linux root=01:00
+        initrd  /boot/udpcast-manual/initrd
+}
+END
+fi
+echo
+
+echo -n "Update GRUB ..."
+sudo update-grub
+echo
+
+echo -n "Clean up ... "
+sudo umount mnt-udpcast
+rmdir mnt-udpcast
+rm udpcd.iso
+echo
