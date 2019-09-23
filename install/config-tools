@@ -37,7 +37,7 @@ cp ~/util/snippets.git/config/emacs/emacs-to-deploy-nox.el ~/.emacs
 sudo cp ~/util/snippets.git/config/emacs/emacs-to-deploy-nox.el /root/.emacs
 
 # Set vim.nox as default editor.
-sudo update-alternatives --set editor /usr/bin/vim.nox
+sudo update-alternatives --set editor /usr/bin/vim.basic
 
 # Disable cursor blinking in terminal.
 # http://www.jurta.org/en/prog/noblink#Linux_Console
@@ -76,7 +76,7 @@ echo "root:root" | sudo chpasswd
 
 # Disable DNS usage in SSH server:
 grep 'UseDNS' /etc/ssh/sshd_config > /dev/null
-if "$?" -eq 0; then
+if test "$?" -eq 0; then
     sudo sed -i 's/^.*UseDNS.*$/UseDNS no/g' /etc/ssh/sshd_config
 else
     echo "UseDNS no" | sudo tee -a /etc/ssh/sshd_config > /dev/null
