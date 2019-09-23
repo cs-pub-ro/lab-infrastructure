@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if test $# -ne 1; then 
+	echo "Usage: $0 <hostname> <dnsdomainname>" 1>&2
+	exit 1
+fi
+
+h="$1"
+d="$2"
+sudo tee /etc/hostname > /dev/null <<< "${h}"
+sudo hostnamectl set-hostname "${h}"
+sudo sed -i 's/^127\.0\.1\.1.*/127.0.1.1 '"${h}.${d} ${h}"'/' /etc/hosts
+
+echo "Hostname is $(hostname)"
