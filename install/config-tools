@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Move to home directory.
+cd
+
+# Update apt and apt-file cached data.
+sudo apt update
+
+# Install and configure Git.
+sudo apt install -y git
+git config --global color.ui auto
+git config --global user.name 'Student USO VM User'
+git config --global user.email 'student@stud.acs.upb.ro'
+sudo git config --global color.ui auto
+sudo git config --global user.name 'Root USO VM User'
+sudo git config --global user.email 'student@stud.acs.upb.ro'
+
+# Clone Razvan's scripts and configs in util/ folder.
+#mkdir -p util
+#cd util
+#git clone https://github.com/razvand/snippets snippets.git
+#cd ..
+
+# Install and configure Vim.
+sudo apt install -y vim
+sudo cp /usr/share/vim/vim*/vimrc_example.vim /etc/vim/vimrc
+mkdir -p ~/.vim/bkup
+cp ~/util/snippets.git/config/vim/vimrc_no_cscope ~/.vimrc
+cp -r ~/util/snippets.git/config/vim/ftplugin/ ~/.vim/
+sudo mkdir -p /root/.vim/bkup
+sudo cp ~/util/snippets.git/config/vim/vimrc_no_cscope /root/.vimrc
+sudo cp -r ~/util/snippets.git/config/vim/ftplugin/ /root/.vim/
+
+# Install and configure Emacs.
+sudo apt install -y emacs-nox
+cp ~/util/snippets.git/config/emacs/emacs-to-deploy-nox.el ~/.emacs
+sudo cp ~/util/snippets.git/config/emacs/emacs-to-deploy-nox.el /root/.emacs
+
+# Set vim.nox as default editor.
+sudo update-alternatives --set editor /usr/bin/vim.nox
+
+# Disable cursor blinking in terminal.
+# http://www.jurta.org/en/prog/noblink#Linux_Console
+(
+echo -e '#!/bin/bash'
+cat <<END
+
+echo 0 | sudo tee /sys/class/graphics/fbcon/cursor_blink > /dev/null
+for i in 1 2 3 4 5 6 7 8; do
+    TERM=linux setterm --foreground white --bold on -store | sudo tee /dev/tty$i > /dev/null
+done
+END
+) | sudo tee /etc/rc.local > /dev/null
+sudo chmod a+x /etc/rc.local
+
+# Set collation to show capitalized names first. Requires reboot.
+sudo locale-gen en_US.UTF-8
+sudo update-locale LC_ALL="en_US.UTF-8"
+sudo update-locale LC_CTYPE="en_US.UTF-8"
+sudo update-locale LC_COLLATE=C
+
+# Configure Bash aliases.
+cp ~/util/snippets.git/config/bash/bash_aliases_deploy_systemd ~/.bash_aliases
+sudo cp ~/util/snippets.git/config/bash/bash_aliases_deploy_systemd /root/.bash_aliases
+
+# Trim Bash prompt when too large.
+echo "export PROMPT_DIRTRIM=3" | sudo tee -a /etc/bash.bashrc > /dev/null
+
+# Install and configure tmux.
+sudo apt install -y tmux
+cp ~/util/snippets.git/config/tmux/tmux_debian.conf ~/.tmux.conf
+sudo cp ~/util/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
+
+# Update password for root user, in case the student /etc/sudoers config is messed up. Set password "root" (no quotes).
+echo "root:root" | sudo chpasswd
+
+# Disable DNS usage in SSH server:
+grep 'UseDNS' /etc/ssh/sshd_config > /dev/null
+if "$?" -eq 0; then
+    sudo sed -i 's/^.*UseDNS.*$/UseDNS no/g' /etc/ssh/sshd_config
+else
+    echo "UseDNS no" | sudo tee -a /etc/ssh/sshd_config > /dev/null
+fi
+
+# Print actions to be done interactively.
+echo ; echo
+cat <<END
+* To configure tmux plugins, do the actions below:
+Run "tmux" and then press "Ctrl+v" and then "I".
+Run "sudo tmux" and then press "Ctrl+v" and then "I".
+END
