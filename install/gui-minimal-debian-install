@@ -1,8 +1,0 @@
-#!/bin/bash
-
-sudo apt -y install xsel xclip
-sudo apt -y install scrot shutter
-sudo apt -y install dconf-tools
-sudo apt -y install vim-gnome
-sudo apt -y install pydf
-sudo apt -y install emacs

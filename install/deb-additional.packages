@@ -1,0 +1,10 @@
+mailutils
+smbclient
+cifs-utils
+ldap-utils
+genisoimage
+inxi
+imagemagick
+emacs-nox
+org-mode
+emacs-goodies-el
