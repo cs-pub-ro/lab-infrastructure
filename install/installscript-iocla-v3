@@ -11,9 +11,17 @@ IDAFREE_LINK="https://out7.hex-rays.com/files/idafree70_linux.run"
 ## packages to install
 BLOAT_PKGS="xfburn thunderbird pidgin simple-scan transmission*"
 
+## Working dir
+TEMP=$(mktemp -d)
+
+## TODO set this as signal handler for the usual suspects
+function cleanup {
+	rm -rf "$TEMP"
+}
+
 function remove_bloatware {
-	apt-get -y remove $BLOAT_PKGS
-	apt-get -y autoremove
+	sudo apt-get -y remove $BLOAT_PKGS
+	sudo apt-get -y autoremove
 }
 
 function install_packages {
@@ -25,11 +33,11 @@ function install_sasm {
 		echo -e "$PRF sasm is already installed"; return
 	fi
 	
-	wget -O /tmp/sasm.deb $SASM_LINK
-	dpkg -i /tmp/sasm.deb
-	rm /tmp/sasm.deb
+	wget -O "$TEMP/sasm.deb" $SASM_LINK
+	sudo dpkg -i "$TEMP/sasm.deb"
+	rm "$TEMP/sasm.deb"
 	# install missing dependencies
-	apt-get -f -y install
+	sudo apt-get -f -y install
 }
 
 function install_binaryninja {
@@ -37,18 +45,19 @@ function install_binaryninja {
 		echo -e "$PRF binaryninja is already installed"; return
 	fi
 
-	wget $BINARYNINJA_LINK -O /tmp/binaryninja.zip
-	unzip /tmp/binaryninja.zip -d /opt/
-	rm /tmp/binaryninja.zip
+	wget $BINARYNINJA_LINK -O "$TEMP/binaryninja.zip"
+	sudo unzip "$TEMP/binaryninja.zip" -d /opt/
+	rm "$TEMP/binaryninja.zip"
 
 	ln -s /opt/binaryninja/binaryninja /home/$STUDENT/bin/binaryninja
-	ln -s /opt/binaryninja/binaryninja /root/bin/binaryninja
+	sudo ln -s /opt/binaryninja/binaryninja /root/bin/binaryninja
 	
-    # get icon
-	wget https://binary.ninja/ico/apple-icon-180x180.png -O /opt/binaryninja/icon.png
+	# get icon
+	sudo wget https://binary.ninja/ico/apple-icon-180x180.png -O /opt/binaryninja/icon.png
 	
 	# inset entry in gnome shell
-	echo "[Desktop Entry]
+	sudo tee /usr/share/applications/BinaryNinja.desktop > /dev/null << END
+[Desktop Entry]
 Type=Application
 Version=1
 Name=Binary Ninja (demo)
@@ -57,7 +66,7 @@ Icon=/opt/binaryninja/icon.png
 Exec=/opt/binaryninja/binaryninja
 Categories=Reversing;
 Terminal=false
-" > /usr/share/applications/BinaryNinja.desktop
+END
 }
 
 function install_gdb_PEDA {
@@ -68,11 +77,10 @@ function install_gdb_PEDA {
 	# setup for user student
 	git clone https://github.com/longld/peda.git /home/$STUDENT/peda
 	echo -ne "def peda\nsource ~/peda/peda.py\nend\n" > /home/$STUDENT/.gdbinit
-	chown -R $STUDENT:$STUDENT /home/$STUDENT
 
 	# same for root user. unsecure, but space efficient
-	ln -s /home/$STUDENT/peda /root/peda
-	ln -f /home/$STUDENT/.gdbinit /root/.gdbinit
+	sudo ln -s /home/$STUDENT/peda /root/peda
+	sudo ln -f /home/$STUDENT/.gdbinit /root/.gdbinit
 }
 
 function install_ida_free {
@@ -80,17 +88,18 @@ function install_ida_free {
 		echo -e "$PRF ida FREE is already installed"; return
 	fi
 
-	wget $IDAFREE_LINK -O /tmp/ida.run
-	chmod +x /tmp/ida.run
+	wget $IDAFREE_LINK -O "$TEMP/ida.run"
+	chmod +x "$TEMP/ida.run"
 	
 	echo -e "\n\n$PRF you have to install this manually. Please set the install path to: /opt/idafree"
 	sleep 5
 
-	/tmp/ida.run --mode unattended
-	rm /tmp/ida.run
+	sudo "$TEMP/ida.run" --mode unattended
+	rm "$TEMP/ida.run"
 	
 	# insert entry in gnome shell
-	echo "[Desktop Entry]
+	sudo tee /usr/share/applications/IDAFree.desktop > /dev/null << END
+[Desktop Entry]
 Type=Application
 Version=0.9.4
 Name=IDA Free
@@ -99,7 +108,7 @@ Icon=/opt/idafree/appico64.png
 Exec=/opt/idafree/ida64
 Terminal=false
 Categories=Reversing
-" > /usr/share/applications/IDAFree.desktop
+END
 }
 
 function install_pwn_tools {
@@ -108,9 +117,10 @@ function install_pwn_tools {
 	fi
 
 	sudo apt-get update
-	apt-get install -y python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential -y
-	pip install --upgrade pip
-	pip install --upgrade pwntools
+	sudo apt-get install -y python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential -y
+	# XXX maybe no sudo and just --user?
+	sudo pip install --upgrade pip
+	sudo pip install --upgrade pwntools
 }
 
 function disable_ASLR {
@@ -118,7 +128,7 @@ function disable_ASLR {
 		echo -e "$PRF ASLR is already disabled"; return
 	fi
 
-	echo -ne "kernel.randomize_va_space = 0\n" > /etc/sysctl.d/01-disable-aslr.conf
+	sudo tee /etc/sysctl.d/01-disable-aslr.conf > /dev/null <<< "kernel.randomize_va_space = 0"
 }
 
 function setup_boot_aliases {
@@ -129,28 +139,24 @@ function setup_boot_aliases {
 	echo -ne \
 	'alias boot-cli="systemctl set-default multi-user.target; echo 'Done! from now on, subsequent boots will enter into CLI mode'"\nalias boot-graphical="systemctl set-default graphical.target; echo 'Done! from now on, subsequent boots will enter into GUI mode'"\n' \
 	>> /home/$STUDENT/.bash_aliases
-	ln -f /home/$STUDENT/.bash_aliases /root/
+	sudo ln -f /home/$STUDENT/.bash_aliases /root/
 }
 
 function disable_animations {
-    gsettings set org.gnome.desktop.interface enable-animations false
+	gsettings set org.gnome.desktop.interface enable-animations false
 }
 
 function install_sysmonitor_dependencies {
-	apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+	sudo apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
 	if [ $? -ne 0 ]; then
-		apt-get -f -y install
-		apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
+		sudo apt-get -f -y install
+		sudo apt-get -y install gir1.2-gtop-2.0 gir1.2-networkmanager-1.0
 	fi
 }
 
 # if [[ -z $(grep "Ubuntu 18.04" /etc/lsb-release) ]]; then
 # 	echo -e "$PRF Warning: this script was intended to be used on Ubuntu 18.04 LTS. Exiting."; exit
 # fi
-
-if [[ $(id -u) -ne 0 ]]; then
-	echo -e "$PRF Please run as root"; exit
-fi
 
 #####################
 ### install stuff ###
@@ -170,3 +176,7 @@ install_sysmonitor_dependencies
 disable_ASLR
 setup_boot_aliases
 disable_animations
+
+#####################
+###### cleanup ######
+cleanup
