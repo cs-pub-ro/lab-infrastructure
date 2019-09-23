@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# UNFROZEN_DISK is used as a storage disk for the data which
+# must not be available on next reboot
+# WARNING: this is being formatted if unaccessible
+# WARNING: make sure you change this variable when installing the script
+# You can also use UNFROZEN_DISK_MATCH to determine on the fly the partition
+# to be used for the unfrozen files. This can be useful in systems where,
+# depending on the kernel version, the partitions are named for example
+# hda6 or sda6
+#UNFROZEN_DISK_MATCH=/dev/[sh]da3
+UNFROZEN_DISK=/dev/sda5
+
+# Uncomment the line below to prevent the script from running.
+# Doing this will leave the system unfrozen.
+#exit 0
+
+
+# -----------------------------------------------------------------------
+# DO NOT modify below unless you know what you're doing
+
+EXEC_PATH=/sbin/sysoverlayfs
+
+if test ! -z $UNFROZEN_DISK_MATCH; then
+    UNFROZEN_DISK=$(fdisk -l | grep ^/ | grep $UNFROZEN_DISK_MATCH | head -n 1 | cut -d" " -f 1)
+fi
+
+if test -z $UNFROZEN_DISK; then
+    logger -s -t "sysoverlayfs" "Failed freezing. No UNFROZEN_DISK specified."
+    exit 1
+fi
+
+logger -s -t "sysoverlayfs" "Using $UNFROZEN_DISK as unfrozen disk."
+
+# Don't freeze if nofreeze is given on kernel cmd line.
+# To use this effectively, add a line like the following to /boot/grub/menu.lst:
+# `# altoptions=(no freeze) nofreeze'
+# This will add a boot option that will boot unfreezed (by passing the nofreeze option).
+# Make sure the line is commented; also keep the original `altoptions=(...) single' line.
+# -octav
+if [[ "`cat /proc/cmdline`" =~ "nofreeze" ]]; then
+        logger -s -t "sysoverlayfs" "Starting unfrozen due to nofreeze parameter in kernel command line."
+        exit 0
+fi
+
+logger -s -t "sysoverlayfs" "Sanitizing system..."
+
+# cleanup root traces from the unfrozen state
+rm -f /root/.bash_history
+rm -f /root/.ssh/known_hosts
+
+# cleanup student traces from the unfrozen state
+cd /home/student
+rm -f .bash_history                          # empty history
+rm -f .ssh/known_hosts                       # empty known_hosts (ssh)
+rm -rf .mozilla/firefox/*/history.dat    # remove Firefox history
+rm -rf .mozilla/firefox/*/Cache/         # remove Firefox cache
+rm -rf .mozilla/firefox/*/places.sqlite  # remove Firefox history
+rm -f .DCOPserver*    # cleanup for kdeinit
+
+# clean sudo commands traces
+rm -rf /var/log/auth.log*
+
+logger -s -t "sysoverlayfs" "Done sanitizing system."
+
+# mounting systmp
+rm -rf /overlay-rw
+mkdir /overlay-rw
+
+# $UNFROZEN_DISK is the partition where everything is mounted rw
+# comment the line below if you use overlay-rw on another partition
+
+logger -s -t "sysoverlayfs" "* Formatting temporary space..."
+yes | /sbin/mkfs.ext4 -q $UNFROZEN_DISK
+/bin/mount -t ext4 $UNFROZEN_DISK /overlay-rw
+
+logger -s -t "sysoverlayfs" "Starting freezing..."
+
+# cleanup data written since the previous freeze
+# "/overlay-rw/*" is used instead of "/overlay-rw" because it might be mounted
+# on a different partition
+rm -rf /overlay-rw/*
+mkdir /overlay-rw/root
+mkdir /overlay-rw/work
+mkdir /overlay-rw/merged
+
+/bin/mount -t overlay overlay -o lowerdir="/",upperdir="/overlay-rw/root",workdir="/overlay-rw/work" "/overlay-rw/merged"
+
+# Use pivot_root if you want to have the old filesystem available.
+exec /usr/sbin/chroot "/overlay-rw/merged" /sbin/init
