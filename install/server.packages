@@ -19,7 +19,7 @@ nmap
 pydf
 radare2
 sed
-texlive-latex3
+texlive-latex-base
 wget
 
 # multilibs
