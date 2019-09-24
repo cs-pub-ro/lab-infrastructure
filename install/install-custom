@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sudo apt install default-jre
+sudo snap install --classic eclipse
+
+sudo tee /usr/share/applications/eclipse.desktop > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=1
+Name=Eclipse
+Comment=Eclipse
+Icon=/snap/eclipse/current/icon.xml
+Exec=/snap/eclipse/current/eclipse "%f"
+Terminal=false
+END
