@@ -1,0 +1,35 @@
+# CORE
+gedit
+gnome-terminal
+firefox
+
+# LIBS_32BIT
+libc6:i386
+libc6-dev:i386
+gcc-multilib
+g++-multilib
+
+# ESSENTIALS
+git
+gcc
+gdb
+nasm
+ipython
+vim
+python-pip
+valgrind
+openssh-server
+
+# UTILS
+gzip
+bzip2
+zip
+unzip
+unrar
+p7zip
+lzma
+xz-utils
+
+# OTHERS
+radare2
+bless

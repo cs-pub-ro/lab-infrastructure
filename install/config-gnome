@@ -1,6 +1,0 @@
-#!/bin/bash
-
-gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
-gsettings set org.gnome.desktop.screensaver lock-enabled false
-gsettings set org.gnome.nautilus.desktop volumes-visible false
-gsettings set org.gnome.software download-updates false

@@ -1,5 +1,53 @@
 #!/bin/bash
 
+make_icon() {
+    prog="$1"
+    progname="$2"
+    name="$3"
+    version="$4"
+    comment="$5"
+    icon="$6"
+    create_in_usr_share="$7"
+
+    if [[ "$prog" =~ ^/ ]]; then
+        path="$prog"
+    else
+        path=$(which "$prog")
+    fi
+
+    if [ -n "$path" ]; then
+        tee "/home/student/Desktop/$progname.desktop" > /dev/null << END
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Version=$version
+Name=$name
+Comment=$comment
+Icon=$icon
+Exec=$path
+Terminal=false
+END
+
+        chmod a+x "/home/student/Desktop/$progname.desktop"
+
+        if [ "$create_in_usr_share" = "true" ]; then
+            sudo tee "/usr/share/applications/$progname.desktop" > /dev/null << END
+[Desktop Entry]
+Type=Application
+Version=$version
+Name=$name
+Comment=$comment
+Icon=$icon
+Exec=$path
+Categories=Reversing;
+Terminal=false
+END
+
+            sudo chmod a+x "/usr/share/applications/$progname.desktop"
+        fi
+    fi
+}
+
 sudo apt-get -y install --no-install-recommends gnome-panel
 sudo apt-get -y install gnome-tweak-tool
 
@@ -7,191 +55,36 @@ sudo apt-get -y install gnome-tweak-tool
 # TODO
 
 # Create desktop launcher for BinaryNinja.
-if test -f /opt/binaryninja/binaryninja; then
-    sudo tee /usr/share/applications/BinaryNinja.desktop > /dev/null << END
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Binary Ninja (demo)
-Comment=Interactive Disassembler
-Icon=/opt/binaryninja/icon.png
-Exec=/opt/binaryninja/binaryninja
-Categories=Reversing;
-Terminal=false
-END
-    tee /home/student/Desktop/BinaryNinja.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Binary Ninja (demo)
-Comment=Interactive Disassembler
-Icon=/opt/binaryninja/icon.png
-Exec=/opt/binaryninja/binaryninja
-Categories=Reversing;
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/BinaryNinja.desktop
-fi
+make_icon "/opt/binaryninja/binaryninja" "BinaryNinja" "Binary Ninja (demo)" "1" "Interactive Disassembler" "/opt/binaryninja/icon.png" "true"
 
 # Create desktop launcher for VirtualBox.
-which virtualbox > /dev/null
-if test $? -eq 0; then
-    path=$(which virtualbox)
-    tee /home/student/Desktop/VirtualBox.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=VirtualBox
-Comment=VirtualBox
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/VirtualBox.desktop
-fi
+make_icon "virtualbox" "VirtualBox" "VirtualBox" "1" "VirtualBox"
 
 # Create desktop launcher for Emacs.
-which emacs > /dev/null
-if test $? -eq 0; then
-    path=$(which emacs)
-    tee /home/student/Desktop/Emacs.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Emacs
-Comment=Emacs
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/Emacs.desktop
-fi
+make_icon "emacs" "Emacs" "Emacs" "1" "Emacs"
 
 # Create desktop launcher for VMware
 # TODO
 
 # Create desktop shortcut for Eclipse.
-which eclipse > /dev/null
-if test $? -eq 0; then
-    path=$(which eclipse)
-    tee /home/student/Desktop/Eclipse.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Eclipse
-Comment=Eclipse
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/Eclipse.desktop
-fi
+make_icon "eclipse" "Eclipse" "Eclipse" "1" "Eclipse"
 
 # Create desktop shortcut for SASM.
-which sasm > /dev/null
-if test $? -eq 0; then
-    path=$(which sasm)
-    tee /home/student/Desktop/SASM.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Emacs
-Comment=Emacs
-Icon=/usr/share/sasm/sasm.png
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/SASM.desktop
-fi
+make_icon "sasm" "SASM" "SASM" "1" "SASM" "/usr/share/sasm/sasm.png"
 
 # Create desktop shortcut for IDA.
-if test -f /opt/idafree/ida64; then
-    sudo tee /usr/share/applications/IDAFree.dekstop > /dev/null << END
-[Desktop Entry]
-Type=Application
-Version=0.9.4
-Name=IDA Free
-Comment=Interactive Disassembler Free
-Icon=/opt/idafree/appico64.png
-Exec=/opt/idafree/ida64
-Terminal=false
-Categories=Reversing
-END
-    tee /home/student/Desktop/IDAFree.dekstop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=0.9.4
-Name=IDA Free
-Comment=Interactive Disassembler Free
-Icon=/opt/idafree/appico64.png
-Exec=/opt/idafree/ida64
-Terminal=false
-Categories=Reversing
-END
-    chmod a+x /home/student/Desktop/IDAFree.desktop
-fi
+make_icon "/opt/idafree/ida64" "IDAFree" "IDA Free" "0.9.4" "Interactive Disassembler Free" "/opt/idafree/appico64.png" "true"
 
 # Create desktop shortcut for GNOME Terminal.
-which gnome-terminal > /dev/null
-if test $? -eq 0; then
-    path=$(which gnome-terminal)
-    tee /home/student/Desktop/Terminal.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=GNOME Terminal
-Comment=GNOME Terminal
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/Terminal.desktop
-fi
+make_icon "gnome-terminal" "GNOME Terminal" "GNOME Terminal" "1" "GNOME Terminal"
 
 # Create desktop shortcut for PacketTracer.
 
 # Create desktop shortcut for Firefox.
-which firefox > /dev/null
-if test $? -eq 0; then
-    path=$(which firefox)
-    tee /home/student/Desktop/Firefox.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Firefox
-Comment=Firefox
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/Terminal.desktop
-fi
+make_icon "firefox" "Firefox" "Firefox" "1" "Firefox"
 
 # Create desktop shortcut for Chromium.
-which chromium-browser > /dev/null
-if test $? -eq 0; then
-    path=$(which chromium-browser)
-    tee /home/student/Desktop/Chromium.desktop > /dev/null << END
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Type=Application
-Version=1
-Name=Chromium
-Comment=Chromium
-Icon=TODO
-Exec=$path
-Terminal=false
-END
-    chmod a+x /home/student/Desktop/Chromium.desktop
-fi
+make_icon "chromium-browser" "Chromium" "Chromium" "1" "Chromium"
 
 gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
 gsettings set org.gnome.desktop.screensaver lock-enabled false
