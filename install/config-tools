@@ -67,7 +67,7 @@ sudo cp ~/util/snippets.git/config/bash/bash_aliases_deploy_systemd /root/.bash_
 echo "export PROMPT_DIRTRIM=3" | sudo tee -a /etc/bash.bashrc > /dev/null
 
 # Install and configure tmux.
-sudo apt install -y tmux
+sudo apt install -y tmux tmux-plugin-manager
 cp ~/util/snippets.git/config/tmux/tmux_debian.conf ~/.tmux.conf
 sudo cp ~/util/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
 
@@ -75,6 +75,7 @@ sudo cp ~/util/snippets.git/config/tmux/tmux_debian.conf /root/.tmux.conf
 echo "root:root" | sudo chpasswd
 
 # Disable DNS usage in SSH server:
+sudo apt install -y openssh-server
 grep 'UseDNS' /etc/ssh/sshd_config > /dev/null
 if test "$?" -eq 0; then
     sudo sed -i 's/^.*UseDNS.*$/UseDNS no/g' /etc/ssh/sshd_config
