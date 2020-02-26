@@ -97,10 +97,12 @@ def get_events_from_csv(csv_file):
             'summary': event['Subject'],
             'location': event['Location'],
             'start': {
-                'dateTime': '{0}T{1}Z'.format(start_date, start_time)
+                'dateTime': '{0}T{1}+02:00'.format(start_date, start_time),
+                'timeZone': 'Europe/Bucharest'
             },
             'end': {
-                'dateTime': '{0}T{1}Z'.format(end_date, end_time)
+                'dateTime': '{0}T{1}+02:00'.format(end_date, end_time),
+                'timeZone': 'Europe/Bucharest'
             },
             'attendees': [ {'email': guest} for guest in event['Guests'].split(' ') if guest != '']
         }
